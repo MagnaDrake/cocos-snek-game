@@ -11,7 +11,9 @@ export class SoundToggleButton extends Button {
   start () {
     this.syncButtonSprite();
 
-    this.node.on(Node.EventType.TOUCH_END, this.toggleSoundState, this);
+    this.node.on(Node.EventType.TOUCH_END, () => {
+      this.toggleSoundState();
+    }, this);
   }
 
   /**
