@@ -20,6 +20,8 @@ package.json:
 -------------------------------
 Manifest to change:
 
+Rename manifest/cocos-boilerplate to manifest/[project-name]
+
 values.yaml:
 - change appName
 - change image.repository
