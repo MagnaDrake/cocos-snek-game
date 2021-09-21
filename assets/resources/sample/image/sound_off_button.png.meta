@@ -2,7 +2,7 @@
   "ver": "1.0.21",
   "importer": "image",
   "imported": true,
-  "uuid": "9aed1abc-8781-4a18-a639-907a307ff3be",
+  "uuid": "db2edcf0-8c2f-47db-89c5-b5432f68365f",
   "files": [
     ".png",
     ".json"
@@ -10,8 +10,8 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "9aed1abc-8781-4a18-a639-907a307ff3be@6c48a",
-      "displayName": "food_tomato",
+      "uuid": "db2edcf0-8c2f-47db-89c5-b5432f68365f@6c48a",
+      "displayName": "sound_off_button",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "9aed1abc-8781-4a18-a639-907a307ff3be"
+        "imageUuidOrDatabaseUri": "db2edcf0-8c2f-47db-89c5-b5432f68365f"
       },
       "ver": "1.0.21",
       "imported": true,
@@ -35,6 +35,6 @@
   "userData": {
     "hasAlpha": true,
     "type": "texture",
-    "redirect": "9aed1abc-8781-4a18-a639-907a307ff3be@6c48a"
+    "redirect": "db2edcf0-8c2f-47db-89c5-b5432f68365f@6c48a"
   }
 }

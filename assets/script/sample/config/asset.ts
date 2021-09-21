@@ -18,6 +18,18 @@ export function getAssets() {
         url: '',
         localUrl: 'sample/image/white_box',
     });
+    assets.push({
+        key: ASSET_KEY.SOUND_ON_BUTTON_SPRITE,
+        type: ASSET_TYPE.IMAGE,
+        url: '',
+        localUrl: 'sample/image/sound_on_button',
+    });
+    assets.push({
+        key: ASSET_KEY.SOUND_OFF_BUTTON_SPRITE,
+        type: ASSET_TYPE.IMAGE,
+        url: '',
+        localUrl: 'sample/image/sound_off_button',
+    });
 
     // Fonts
     assets.push({
