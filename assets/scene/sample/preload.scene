@@ -24,7 +24,7 @@
         "__id__": 5
       },
       {
-        "__id__": 61
+        "__id__": 62
       }
     ],
     "_active": true,
@@ -32,7 +32,7 @@
     "_prefab": null,
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 63
+      "__id__": 64
     },
     "_id": "0eb4ffa8-5ced-49b1-8639-cbeab4959cfe"
   },
@@ -93,6 +93,9 @@
     },
     "assetLoadingUI": {
       "__id__": 6
+    },
+    "backgroundMusic": {
+      "__id__": 61
     },
     "_id": "00eLxEFU5EQqFwkXTY3qqt"
   },
@@ -1528,6 +1531,17 @@
     "_id": "99H+D1V/1NyYJ7hLhZwFgJ"
   },
   {
+    "__type__": "4c03enzBIRJZpPsC0A+xe/x",
+    "_name": "BackgroundMusic",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 62
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_id": "f8eArEV7ROS5S4auu/cPI8"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "BackgroundMusic",
     "_objFlags": 0,
@@ -1538,7 +1552,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 62
+        "__id__": 63
+      },
+      {
+        "__id__": 61
       }
     ],
     "_prefab": null,
@@ -1575,7 +1592,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 61
+      "__id__": 62
     },
     "_enabled": true,
     "__prefab": null,
@@ -1588,16 +1605,16 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 64
-    },
-    "shadows": {
       "__id__": 65
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 66
     },
-    "fog": {
+    "_skybox": {
       "__id__": 67
+    },
+    "fog": {
+      "__id__": 68
     }
   },
   {

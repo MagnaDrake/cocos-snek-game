@@ -1,4 +1,4 @@
-import { _decorator, Component, director } from 'cc';
+import { _decorator, Component, director, game } from 'cc';
 import { ASSET_LOADER_EVENT } from '../../lib/enum/assetLoader';
 import { AssetLoader } from '../../lib/loader/assetLoader';
 import { AssetLoadingUI } from '../object/loading/assetLoadingUI';
@@ -6,6 +6,7 @@ import ShopeeWebBridge from '../../lib/webBridge/shopeeWebBridge';
 import { getAssets } from '../config/asset';
 import { SCENE_KEY } from '../enum/scene';
 import { BaseSprite } from '../../lib/sprite/baseSprite';
+import { BackgroundMusic } from '../audio/backgroundMusic';
 const { ccclass, property } = _decorator;
 
 @ccclass('PreloadScene')
@@ -15,6 +16,9 @@ export class PreloadScene extends Component {
 
     @property(AssetLoadingUI)
     public readonly assetLoadingUI?: AssetLoadingUI;
+
+    @property(BackgroundMusic)
+    public readonly backgroundMusic?: BackgroundMusic;
 
     private baseSprites = new Array<BaseSprite>();
     
@@ -64,14 +68,20 @@ export class PreloadScene extends Component {
     }
 
     private onComplete() {
-        this.spawnBackgroundMusic();
+        this.handleBackgroundMusic();
     }
 
     private goToTitleScene() {
         director.loadScene(SCENE_KEY.TITLE);
     }
 
-    private spawnBackgroundMusic () {
-        
+    private handleBackgroundMusic() {
+        const { backgroundMusic } = this;
+        if (!backgroundMusic) return;
+
+        backgroundMusic.play();
+
+        /** Add background music node as persist root node. */
+        game.addPersistRootNode(backgroundMusic.node);
     }
 }
