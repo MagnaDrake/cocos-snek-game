@@ -1,10 +1,4 @@
-import { _decorator, Component, director } from "cc";
-import { SCENE_KEY } from "../enum/scene";
-import { Toast } from "../../lib/toast/Toast";
-import {
-  getUsernameFromLocalStorage,
-  updateLocalStorageUsername,
-} from "../../lib/util/localStorage";
+import { _decorator, Component } from "cc";
 import ShopeeWebBridge from "../../lib/webBridge/shopeeWebBridge";
 const { ccclass, property } = _decorator;
 
@@ -19,9 +13,5 @@ export class TitleScene extends Component {
 
   start() {
 
-  }
-
-  private onStartPlay(username: string) {
-    updateLocalStorageUsername(username);
   }
 }
