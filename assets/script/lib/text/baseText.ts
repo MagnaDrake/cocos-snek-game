@@ -17,12 +17,12 @@ export class BaseText extends Component {
     }
 
     onLoad() {
-        this.richText = this.getComponent(RichText);
         this.reload();
         this.reloadTextWithAssignedColor();
     }
 
     protected reload() {
+        this.richText = this.getComponent(RichText);
         this.setupFont();
     }
 
