@@ -7,10 +7,10 @@ export function getAssets() {
 
     // Early sprites (used for loading screen)
     assets.push({
-        key: ASSET_KEY.WHITE_BOX_SPRITE,
+        key: ASSET_KEY.TOMATO_SPRITE,
         type: ASSET_TYPE.IMAGE,
         url: '',
-        localUrl: 'image/preload_bg'
+        localUrl: 'sample/image/tomato'
     });
 
     return assets;

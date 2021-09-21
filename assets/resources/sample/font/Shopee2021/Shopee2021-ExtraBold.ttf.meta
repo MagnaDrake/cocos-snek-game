@@ -1,9 +1,12 @@
 {
   "ver": "1.0.1",
   "importer": "ttf-font",
-  "imported": false,
+  "imported": true,
   "uuid": "0743fdb3-3a8e-4123-9ddb-e053193b234a",
-  "files": [],
+  "files": [
+    "Shopee2021-ExtraBold.ttf",
+    ".json"
+  ],
   "subMetas": {},
   "userData": {}
 }
