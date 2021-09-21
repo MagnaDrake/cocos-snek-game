@@ -1,4 +1,4 @@
-image: asia-southeast1-docker.pkg.dev/spid-non-prod/spid-non-prod-public/pipeline-runner:latest
+image: dgrlabs/pipeline-runner:latest
 
 stages:
   - test
