@@ -1,5 +1,5 @@
 /** Used for strechable image using 9-sliced format */
-type AssetStretchableImageOptions = {
+type AssetNineSliceOptions = {
   /**
    * Set inset of the bottom side
    */
@@ -37,4 +37,4 @@ type AssetSpritesheetOptions = {
   paddingY?: number;
 }
 
-export type AssetOptions = AssetSpritesheetOptions & AssetStretchableImageOptions
+export type AssetOptions = AssetSpritesheetOptions & AssetNineSliceOptions;
