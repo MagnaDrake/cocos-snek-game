@@ -5,6 +5,7 @@ import { AssetLoadingUI } from '../object/loading/assetLoadingUI';
 import ShopeeWebBridge from '../../lib/webBridge/shopeeWebBridge';
 import { getAssets } from '../config/asset';
 import { SCENE_KEY } from '../enum/scene';
+import { BaseSprite } from '../../lib/sprite/baseSprite';
 const { ccclass, property } = _decorator;
 
 @ccclass('PreloadScene')
@@ -14,9 +15,12 @@ export class PreloadScene extends Component {
 
     @property(AssetLoadingUI)
     public readonly assetLoadingUI?: AssetLoadingUI;
+
+    private baseSprites = new Array<BaseSprite>();
     
     onLoad () {
         this.setupWebBridge();
+        this.baseSprites = this.node.scene.getComponentsInChildren(BaseSprite);
     }
 
     private setupWebBridge () {
@@ -49,6 +53,9 @@ export class PreloadScene extends Component {
 
     private onAssetLoadSuccess(progress: number, key: string) {
         this.assetLoadingUI?.updateText(progress, key);
+        this.baseSprites?.forEach((sprite) => {
+            sprite.reload();
+        });
     }
 
     private onAssetLoaderComplete(progress: number) {
