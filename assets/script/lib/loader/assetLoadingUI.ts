@@ -33,15 +33,15 @@ export class AssetLoadingUI extends Component {
                     break;
                 }
 
-                // case 0: {
-                //     urlLoadText.setText('LOADING...');
-                //     break;
-                // }
+                case 0: {
+                    urlLoadText.setText('LOADING...');
+                    break;
+                }
 
-                // default: {
-                //     urlLoadText.setText(`${key}`);
-                //     break;
-                // }
+                default: {
+                    urlLoadText.setText(`${key}`);
+                    break;
+                }
             }
         }
     }
