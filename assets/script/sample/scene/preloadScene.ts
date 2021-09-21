@@ -1,7 +1,7 @@
 import { _decorator, Component, director } from 'cc';
 import { ASSET_LOADER_EVENT } from '../../lib/enum/assetLoader';
 import { AssetLoader } from '../../lib/loader/assetLoader';
-import { AssetLoadingUI } from '../../lib/loader/assetLoadingUI';
+import { AssetLoadingUI } from '../object/loading/assetLoadingUI';
 import ShopeeWebBridge from '../../lib/webBridge/shopeeWebBridge';
 import { getAssets } from '../config/asset';
 import { SCENE_KEY } from '../enum/scene';
