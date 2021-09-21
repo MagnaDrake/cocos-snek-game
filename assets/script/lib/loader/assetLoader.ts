@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, assetManager, resources, Asset, ImageAsset, SpriteFrame, math, Texture2D } from 'cc';
+import { _decorator, Component, assetManager, resources, Asset, ImageAsset, SpriteFrame, math, Texture2D } from 'cc';
 import { ASSET_EXTENSION, ASSET_TYPE } from '../enum/asset';
 import { ASSET_LOADER_EVENT } from '../enum/assetLoader';
 import { AssetConfig } from '../interface/asset';
