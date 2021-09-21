@@ -26,7 +26,7 @@
     "_prefab": null,
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 34
+      "__id__": 35
     },
     "_id": "11c87f13-be6f-48ab-83e3-9aab515fc05b"
   },
@@ -93,13 +93,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 28
+        "__id__": 29
       },
       {
-        "__id__": 30
+        "__id__": 31
       },
       {
-        "__id__": 32
+        "__id__": 33
       }
     ],
     "_prefab": null,
@@ -619,6 +619,9 @@
       },
       {
         "__id__": 27
+      },
+      {
+        "__id__": 28
       }
     ],
     "_prefab": null,
@@ -720,6 +723,20 @@
     "fileId": "e71ctEmpxFC4KlSYRZNz/a"
   },
   {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 22
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "playOnLoad": false,
+    "_clips": [],
+    "_defaultClip": null,
+    "_id": "63Dx3lecJG45e8/u9AXDW7"
+  },
+  {
     "__type__": "1c1abtfdURHb5BOIXeT6kHI",
     "_name": "BlackMageSprite",
     "_objFlags": 0,
@@ -739,7 +756,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 29
+      "__id__": 30
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -766,7 +783,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 31
+      "__id__": 32
     },
     "_cameraComponent": {
       "__id__": 5
@@ -787,7 +804,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 33
+      "__id__": 34
     },
     "_alignFlags": 45,
     "_target": null,
@@ -816,16 +833,16 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 35
-    },
-    "shadows": {
       "__id__": 36
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 37
     },
-    "fog": {
+    "_skybox": {
       "__id__": 38
+    },
+    "fog": {
+      "__id__": 39
     }
   },
   {
