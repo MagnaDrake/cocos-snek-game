@@ -1,17 +1,13 @@
-import { _decorator, Component, Node, AudioSource, AudioClip, assetManager, director, game } from 'cc';
-import { BASE_AUDIO_EVENT } from '../enum/audio';
+import { _decorator, Component, Node, AudioSource, AudioClip, assetManager, game } from 'cc';
 import { GAME_EVENT } from '../enum/game';
 import { getSoundStateFromLocalStorage } from '../util/localStorage';
 const { ccclass, property } = _decorator;
 
 @ccclass('BaseAudio')
 export class BaseAudio extends Component {
-    private readonly ONE_SHOT_DELAY = 200;
-
     private audioSource?: AudioSource | null;
-    private audioClip: AudioClip | null = null;
 
-    private lastPlayOneShot = 0;
+    private audioClip: AudioClip | null = null;
 
     constructor(
         name: string, 
@@ -72,45 +68,17 @@ export class BaseAudio extends Component {
         this.setVolume(vol ?? volume);
     }
 
-    play (vol?: number) {
+    public play(vol?: number) {
         this.reload(vol);
         this.audioSource?.play();
     }
 
-    /** 
-     * Used for playing sound effect which has these the following characteristics:
-     * - Short playback time
-     * - A large number of simultaneous playback
-     * 
-     * @param callback Function to be called after the audio duration
-     */
-    playOneShot () {
-        this.reload();
-
-        const { audioClip, audioSource, ONE_SHOT_DELAY } = this
-        if (!audioSource || !audioClip) return;
-
-        const delay = Date.now() - this.lastPlayOneShot;
-        if (delay < ONE_SHOT_DELAY) return;
-
-        audioSource.playOneShot(audioClip);
-        this.lastPlayOneShot = Date.now();
-        this.scheduleOnce(this.onOneShotPlayed, audioClip.getDuration())
-    }
-
-    private onOneShotPlayed () {
-        this.node.emit(BASE_AUDIO_EVENT.ONE_SHOT_PLAYED)
-    }
-
-    stop() {
+    public stop() {
         this.audioSource?.stop();
     }
 
-    replay (vol?: number) {
-        const { audioSource } = this
-        if (!audioSource) return;
-
-        audioSource.currentTime = 0;
+    public replay(vol?: number) {
+        this.stop();
         this.play(vol);
     }
 }

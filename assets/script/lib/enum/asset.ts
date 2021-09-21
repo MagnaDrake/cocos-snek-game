@@ -5,7 +5,7 @@ export enum ASSET_EXTENSION {
 export enum ASSET_TYPE {
   IMAGE = 'image',
   SPRITESHEET = 'spritesheet',
-  STRETCHABLE_IMAGE = 'stretchable_image',
+  NINE_SLICE = 'nine_slice',
   AUDIO = 'audio',
   FONT = 'font',
 }

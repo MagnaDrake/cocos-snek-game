@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, assetManager, resources, Asset, ImageAsset, SpriteFrame, math, Texture2D } from 'cc';
+import { _decorator, Component, assetManager, resources, Asset, ImageAsset, SpriteFrame, math, Texture2D } from 'cc';
 import { ASSET_EXTENSION, ASSET_TYPE } from '../enum/asset';
 import { ASSET_LOADER_EVENT } from '../enum/assetLoader';
 import { AssetConfig } from '../interface/asset';
@@ -120,9 +120,9 @@ export class AssetLoader extends Component {
                 break;
             }
 
-            case ASSET_TYPE.STRETCHABLE_IMAGE: {
+            case ASSET_TYPE.NINE_SLICE: {
                 this.remapAssetManagerEntry(getAssetKey(key), uuid);
-                this.handleLoadedStretchableImage(getAssetKey(key), key, config);
+                this.handleLoadedNineSlice(getAssetKey(key), key, config);
                 break;
             }
 
@@ -168,7 +168,7 @@ export class AssetLoader extends Component {
         assetManager.assets.add(key, spriteFrame);
     }
 
-    private handleLoadedStretchableImage (assetKey: string, key: string, config?: AssetOptions) {
+    private handleLoadedNineSlice(assetKey: string, key: string, config?: AssetOptions) {
         const imageAsset = assetManager.assets.get(assetKey) as ImageAsset;
 
         if (!imageAsset) return;

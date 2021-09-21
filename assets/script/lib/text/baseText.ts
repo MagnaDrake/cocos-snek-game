@@ -2,6 +2,9 @@ import { _decorator, Component, Node, RichText, assetManager, TTFFont, Color } f
 import { getTextWithColor } from '../util/richText';
 const { ccclass, property } = _decorator;
 
+/**
+ * @deprecated currently RichText has no clear benefit compared to Label while being much more complicated to use, so use BaseLabel instead
+ */
 @ccclass('BaseText')
 export class BaseText extends Component {
     @property(Color)
@@ -17,14 +20,13 @@ export class BaseText extends Component {
     }
 
     onLoad() {
-        this.richText = this.getComponent(RichText);
-
         this.reload();
+        this.reloadTextWithAssignedColor();
     }
 
-    protected reload() {
+    public reload() {
+        this.richText = this.getComponent(RichText);
         this.setupFont();
-        this.reloadTextWithAssignedColor();
     }
 
     protected reloadTextWithAssignedColor() {
@@ -43,20 +45,12 @@ export class BaseText extends Component {
         return assetManager.assets.get(this.fontKey) as TTFFont;
     }
 
-    protected isFontLoaded() {
-        return this.richText?.useSystemFont;
-    }
-
     public setText(text: string) {
+        this.reload();
+        
         const { richText, textColor } = this;
         if (richText) {
             richText.string = getTextWithColor(text, textColor);
-        }
-    }
-
-    update() {
-        if (this.isFontLoaded()) {
-            this.reload();
         }
     }
 }
