@@ -1,0 +1,20 @@
+{
+  "__version__": "1.0.1",
+  "general": {
+    "designResolution": {
+      "width": 360,
+      "fitWidth": true,
+      "fitHeight": true
+    }
+  },
+  "layer": [
+    {
+      "name": "BACKGROUND",
+      "value": 1
+    },
+    {
+      "name": "GAMEPLAY",
+      "value": 2
+    }
+  ]
+}

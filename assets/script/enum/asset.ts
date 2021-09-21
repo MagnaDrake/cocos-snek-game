@@ -1,0 +1,61 @@
+export enum ASSET_KEY {
+  // Temp Sprite
+  WHITE_BOX_SPRITE = 'white_box_sprite',
+
+  // Sprite
+  BIG_CHICKEN_RED_SPRITE = 'big_chicken_red_sprite',
+  BIG_CHICKEN_BLUE_SPRITE = 'big_chicken_blue_sprite',
+  SMALL_CHICK_YELLOW_SPRITE = 'small_chick_yellow_sprite',
+  SMALL_CHICK_BLUE_SPRITE = 'small_chick_blue_sprite',
+  LOADING_CHICK_SPRITE = 'loading_chick_sprite',
+  FOOD_CARROT_SPRITE = 'food_carrot_sprite',
+  FOOD_CORN_SPRITE = 'food_corn_sprite',
+  FOOD_EGGPLANT_SPRITE = 'food_eggplant_sprite',
+  FOOD_TOMATO_SPRITE = 'food_tomato_sprite',
+  FOOD_TURNIP_SPRITE = 'food_turnip_sprite',
+  FOOD_VOUCHER_SPRITE = 'food_voucher_sprite',
+  PRELOAD_BACKGROUND_SPRITE = 'preload_background_sprite',
+  TITLE_BACKGROUND_SPRITE = 'title_background_sprite',
+  GAME_BACKGROUND_SPRITE = 'game_background_sprite',
+  LOGO_SPRITE = 'logo_sprite',
+  PRIMARY_BUTTON_SPRITE = 'primary_button_sprite',
+  SECONDARY_BUTTON_SPRITE = 'secondary_button_sprite',
+  DIALOG_BACKGROUND_SPRITE = 'dialog_background_sprite',
+  DIALOG_HEADER_BACKGROUND_SPRITE = 'dialog_header_background_sprite',
+  GLOW_EFFECT_SPRITE = 'glow_effect_sprite',
+  BACK_BUTTON_SPRITE = 'back_button_sprite',
+  QUESTION_BUTTON_SPRITE = 'question_button_sprite',
+  SOUND_OFF_BUTTON_SPRITE = 'sound_off_button_sprite',
+  SOUND_ON_BUTTON_SPRITE = 'sound_on_button_sprite',
+  JOYSTICK_BASE_SPRITE = 'joystick_base_sprite',
+  JOYSTICK_BUTTON_SPRITE = 'joystick_button_sprite',
+  TIMER_SPRITE = 'timer_sprite',
+  CROWN_FIRST_SPRITE = 'crown_first_sprite',
+  CROWN_SECOND_SPRITE = 'crown_second_sprite',
+  CROWN_THIRD_SPRITE = `crown_third_sprite`,
+  PLAYER_ARROW_SPRITE = `player_arrow_sprite`,
+  FENCE_CORNER_SPRITE = 'fence_corner_sprite',
+  FENCE_EXTRA_SPRITE = 'fence_extra_sprite',
+  FENCE_SIDE_HORIZONTAL_SPRITE = 'fence_side_h_sprite',
+  FENCE_SIDE_VERTICAL_SPRITE = 'fence_side_v_sprite',
+  MISSION_ICON = 'mission_icon',
+
+  MINIMAP_PLAYER = 'minimap_player_indicator',
+  MINIMAP_ENEMY_NEAR = 'minimap_enemy_near',
+  MINIMAP_ENEMY_FAR = 'minimap_enemy_far',
+
+  VOUCHER_INDICATOR_NEAR = 'voucher_indicator_near',
+  VOUCHER_INDICATOR_FAR = 'voucher_indicator_far',
+
+  // Font
+  SHOPEE_2021_BOLD = 'shopee_2021_bold',
+  SHOPEE_2021_MEDIUM = 'shopee_2021_medium',
+
+  // Audio
+  BG_MUSIC = 'bg_music',
+  BUTTON_CLICK_SFX = 'button_click_sfx',
+  COUNT_SCORE_SFX = 'count_score_sfx',
+  DIE_SFX = 'die_sfx',
+  EAT_SFX = 'eat_sfx',
+  EAT_VOUCHER_SFX = 'eat_voucher_sfx',
+}

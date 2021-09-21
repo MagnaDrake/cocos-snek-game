@@ -1,0 +1,96 @@
+{{- if .Values.envoyFilter.enabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: {{ .Values.appName }}-envoyfilter
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: envoy.http_connection_manager
+            subFilter:
+              name: envoy.router
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.lua
+        typed_config:
+          '@type': type.googleapis.com/envoy.config.filter.http.lua.v2.Lua
+          inlineCode: |
+            function spliter (inputstr, sep)
+              if sep == nil then
+                sep = "%s"
+              end
+
+              local t={}
+              for str in string.gmatch(inputstr,"([^" ..sep.. "]+)") do
+                table.insert(t, str)
+              end
+              return t
+            end
+
+            local char_to_hex = function(c)
+                return string.format("%%%02X", string.byte(c))
+            end
+
+            local function urlencode(url)
+              if url == nil then
+                return
+              end
+              url = url:gsub("\n", "\r\n")
+              url = url:gsub("([^%w ])", char_to_hex)
+              url = url:gsub(" ", "+")
+              return url
+            end
+
+            function  envoy_on_request(request_handle)
+              headers = request_handle:headers()
+              paths = headers:get(':path')
+              authority = headers:get(':authority')
+              useragent = headers:get("user-agent")
+              if string.find(paths, "universal%-link") == nil
+              {{- if .Values.envoyFilter.exception }}
+              {{- range .Values.envoyFilter.exception }}
+              and string.find(paths, {{ .path | quote }}) == nil
+              {{- end }}
+              {{- end }}
+              and string.find(useragent, "Beeshop") == nil
+              and string.find(useragent, "facebookexternalhit") == nil
+              and string.match(paths,{{ .Values.virtualService.path | quote }})
+              then
+
+              c = {{ .Values.envoyFilter.c | quote }}
+              pid = {{ .Values.envoyFilter.pid | quote }}
+
+              domain = spliter(authority,".")
+              dns = domain[#domain-1] .. "." .. domain[#domain]
+              if domain[#domain-1] ~= "shopee" then
+                dns = domain[#domain-2] .. "." .. dns
+              end
+
+              tracker = "?c=" .. c .. "&pid=" .. pid
+              if string.find(paths, "?")
+              then
+                tracker = "&c=" .. c .. "&pid=" .. pid
+              end
+
+              generic = "/generic-download/app?redirect_url="
+              redirect = "https://" .. authority ..
+                         "/universal-link".. paths .. tracker ..
+                         "&deep_and_deferred=1"
+              redirect = urlencode(redirect)
+              location = "https://" .. dns .. generic .. redirect
+              msg = "308 Permanent Redirect"
+              request_handle:respond({[":status"] = "308",
+                  ["Location"] = location}, msg)
+              end
+            end
+  workloadSelector:
+    labels:
+      app: istio-ingressgateway
+  {{- end }}
