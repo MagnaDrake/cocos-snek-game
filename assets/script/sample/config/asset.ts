@@ -24,7 +24,15 @@ export function getAssets() {
         key: ASSET_KEY.SHOPEE_2021_BOLD_FONT,
         type: ASSET_TYPE.FONT,
         url: '',
-        localUrl: 'sample/font/Shopee2021/Shopee2021-Bold'
+        localUrl: 'sample/font/Shopee2021/Shopee2021-Bold',
+    });
+
+    // Music
+    assets.push({
+        key: ASSET_KEY.BG_MUSIC,
+        type: ASSET_TYPE.AUDIO,
+        url: '',
+        localUrl: 'sample/audio/bg_music',
     });
 
     return assets;
