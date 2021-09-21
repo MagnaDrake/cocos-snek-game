@@ -1,5 +1,5 @@
 # application name
-appName: cocos-snake-fe
+appName: cocos-boilerplate
 
 # pods replica
 replicaCount: 1
@@ -18,7 +18,7 @@ service:
 # networking configuration virtual service or ingress resource
 virtualService:
   enabled: true
-  path: /cocos-snake-fe
+  path: /cocos-boilerplate
   rewrite: /
   hosts:
     - domain: play.test.shopee.co.id

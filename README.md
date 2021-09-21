@@ -25,3 +25,6 @@ values.yaml:
 - change image.repository
 - change ingress.path
 
+[env].yaml:
+- change appName
+- change virtualService.path
