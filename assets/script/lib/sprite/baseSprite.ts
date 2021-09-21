@@ -24,7 +24,7 @@ export class BaseSprite extends Component {
         this.reload();
     }
 
-    protected reload() {
+    public reload() {
         this.sprite = this.getComponent(Sprite);
         this.uiTransform = this.getComponent(UITransform);
         this.animation = this.getComponent(Animation);

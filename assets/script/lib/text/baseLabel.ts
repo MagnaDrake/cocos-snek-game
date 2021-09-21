@@ -19,7 +19,7 @@ export class BaseLabel extends Component {
     this.reload();
   }
 
-  protected reload() {
+  public reload() {
     this.label = this.getComponent(Label);
     this.setupFont();
   }

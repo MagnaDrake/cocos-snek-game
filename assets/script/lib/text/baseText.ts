@@ -24,7 +24,7 @@ export class BaseText extends Component {
         this.reloadTextWithAssignedColor();
     }
 
-    protected reload() {
+    public reload() {
         this.richText = this.getComponent(RichText);
         this.setupFont();
     }
