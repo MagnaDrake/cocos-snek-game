@@ -1,11 +1,11 @@
 project:
-  name: cocos-snake-fe
+  name: cocos-boilerplate
   team: games
   type: fe
-  repo_path: https://git.garena.com/shopee/shopee-id/showcase-fe/cocos-snake-fe
+  repo_path: https://git.garena.com/shopee/shopee-id/cocos-boilerplate
 
 domain:
-  path: /cocos-snake-fe
+  path: /cocos-boilerplate
   prefix: play
 
 dependencies:
