@@ -28,3 +28,7 @@ values.yaml:
 [env].yaml:
 - change appName
 - change virtualService.path
+
+Chart.yaml:
+- change description
+- change name
