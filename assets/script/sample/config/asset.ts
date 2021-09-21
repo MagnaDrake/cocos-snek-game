@@ -30,6 +30,18 @@ export function getAssets() {
         url: '',
         localUrl: 'sample/image/sound_off_button',
     });
+    assets.push( {
+        key: ASSET_KEY.BLACK_MAGE_SPRITE,
+        type: ASSET_TYPE.SPRITESHEET,
+        url: '',
+        localUrl: 'sample/image/black_mage',
+        config: {
+            frameWidth: 86,
+            frameHeight: 87,
+            paddingX: 5,
+            paddingY: 1,
+        }
+    });
 
     // Fonts
     assets.push({
