@@ -97,6 +97,9 @@
     "backgroundMusic": {
       "__id__": 61
     },
+    "preloadControl": {
+      "__id__": 23
+    },
     "_id": "00eLxEFU5EQqFwkXTY3qqt"
   },
   {

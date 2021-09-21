@@ -1,4 +1,4 @@
-import { _decorator, Component, director, game } from 'cc';
+import { _decorator, Component, director, game, Node } from 'cc';
 import { ASSET_LOADER_EVENT } from '../../lib/enum/assetLoader';
 import { AssetLoader } from '../../lib/loader/assetLoader';
 import { AssetLoadingUI } from '../object/loading/assetLoadingUI';
@@ -19,6 +19,9 @@ export class PreloadScene extends Component {
 
     @property(BackgroundMusic)
     public readonly backgroundMusic?: BackgroundMusic;
+
+    @property(Node)
+    public readonly preloadControl?: Node;
 
     private baseSprites = new Array<BaseSprite>();
     
@@ -69,6 +72,7 @@ export class PreloadScene extends Component {
 
     private onComplete() {
         this.handleBackgroundMusic();
+        this.preloadControl?.once(Node.EventType.TOUCH_END, this.goToTitleScene, this);
     }
 
     private goToTitleScene() {
