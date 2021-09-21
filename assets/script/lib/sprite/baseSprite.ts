@@ -1,5 +1,4 @@
-import { _decorator, Component, Sprite, assetManager, SpriteFrame, Animation, UITransform, UIOpacity, Color, Vec3 } from 'cc';
-import { getScaleToNewDimension } from '../util/scaling';
+import { _decorator, Component, Sprite, assetManager, SpriteFrame, Animation, UITransform, Color, Vec3, color } from 'cc';
 import { getSpriteFrameKey } from '../util/spritesheet';
 const { ccclass, property } = _decorator;
 
@@ -8,8 +7,6 @@ export class BaseSprite extends Component {
     protected sprite?: Sprite | null;
 
     protected uiTransform?: UITransform | null;
-
-    protected uiOpacity?: UIOpacity | null;
 
     protected animation?: Animation | null;
 
@@ -26,7 +23,6 @@ export class BaseSprite extends Component {
     onLoad() {
         this.sprite = this.getComponent(Sprite);
         this.uiTransform = this.getComponent(UITransform);
-        this.uiOpacity = this.getComponent(UIOpacity);
         this.animation = this.getComponent(Animation);
         this.presetDimension = this.getPresetDimension();
 
@@ -57,18 +53,6 @@ export class BaseSprite extends Component {
         }
     }
 
-    /**
-     * @deprecated Use adjustSize instead
-     */
-    protected adjustScaling() {
-        const { node, presetDimension } = this;
-        const { width: presetWidth, height: presetHeight } = presetDimension;
-
-        const { width, height } = this.getSpriteFrame()?.rect || presetDimension;
-        const { x, y } = getScaleToNewDimension(width, height, presetWidth, presetHeight);
-        node.setScale(x, y);
-    }
-
     protected adjustSize() {
         const { uiTransform, presetDimension } = this;
         const { width, height } = presetDimension;
@@ -76,10 +60,12 @@ export class BaseSprite extends Component {
         uiTransform?.setContentSize(width, height);
     }
 
+    /**
+     * @param opacity 0 to 255
+     */
     public setOpacity(opacity: number) {
-        if (this.uiOpacity) {
-            this.uiOpacity.opacity = opacity;
-        }
+        const { r, g, b } = this.sprite?.color || { r: 255, g: 255, b: 255 };
+        this.setColor(color(r, g, b, opacity));
     }
 
     public setColor(color: Color) {
@@ -102,11 +88,5 @@ export class BaseSprite extends Component {
 
     public setTexture(textureKey: string) {
         this.textureKey = textureKey;
-    }
-
-    update() {
-        if (!this.sprite?.spriteFrame) {
-            this.reload();
-        }
     }
 }

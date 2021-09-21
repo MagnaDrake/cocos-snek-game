@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, RichText } from 'cc';
+import { _decorator, Component } from 'cc';
 import { BaseText } from '../text/baseText';
 import { LoadingBar } from './loadingBar';
 const { ccclass, property } = _decorator;
