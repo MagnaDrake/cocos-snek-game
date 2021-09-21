@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Graphics, UITransform } from 'cc';
+import { _decorator, Component, Graphics, UITransform } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('LoadingBar')

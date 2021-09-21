@@ -1,5 +1,5 @@
 import { _decorator, Component } from 'cc';
-import { BaseText } from '../text/baseText';
+import { BaseText } from '../../../lib/text/baseText';
 import { LoadingBar } from './loadingBar';
 const { ccclass, property } = _decorator;
 
