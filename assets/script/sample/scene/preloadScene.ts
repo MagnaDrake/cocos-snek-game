@@ -29,7 +29,7 @@ export class PreloadScene extends Component {
 
         ShopeeWebBridge.configurePage({
             showNavbar: true,
-            title: 'Shopee Chicks',
+            title: 'Cocos Boilerplate',
         })
     }
 

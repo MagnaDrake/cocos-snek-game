@@ -6,8 +6,7 @@ const { ccclass, property } = _decorator;
 export class TitleScene extends Component {
   onLoad () {
     ShopeeWebBridge.configurePage({
-      title: 'Shopee Chicks',
-      showNavbar: true,
+      showNavbar: false,
     });
   }
 
