@@ -1,4 +1,4 @@
-image: dgrlabs/pipeline-runner:latest
+image: asia-southeast1-docker.pkg.dev/spid-non-prod/spid-non-prod-public/pipeline-runner:latest
 
 stages:
   - test
@@ -6,7 +6,7 @@ stages:
   - deploy
 
 variables:
-  APP_NAME: cocos-snake-fe
+  APP_NAME: cocos-boilerplate
   APP_TEAM: games
 
 cache:

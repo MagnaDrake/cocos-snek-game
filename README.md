@@ -2,5 +2,13 @@
 
 Things to change:
 
-pipeline.yaml: change project.name, project.repo_path, and domain.path
-package.json: change name
+pipeline.yaml: 
+- change project.name
+- change project.repo_path
+- change domain.path
+
+package.json: 
+- change name
+
+.gitlab-ci.yml: 
+- change variables.APP_NAME
