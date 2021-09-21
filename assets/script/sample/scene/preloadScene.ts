@@ -1,14 +1,10 @@
-import { _decorator, Component, director, find, instantiate, game } from 'cc';
-import { BackgroundMusic } from '../audio/backgroundMusic';
+import { _decorator, Component, director } from 'cc';
+import { ASSET_LOADER_EVENT } from '../../lib/enum/assetLoader';
+import { AssetLoader } from '../../lib/loader/assetLoader';
+import { AssetLoadingUI } from '../../lib/loader/assetLoadingUI';
+import ShopeeWebBridge from '../../lib/webBridge/shopeeWebBridge';
 import { getAssets } from '../config/asset';
-import { PreloadControl } from '../control/preloadControl';
-import { ASSET_KEY } from '../enum/asset';
-import { PRELOAD_CONTROL_EVENT } from '../enum/preloadControl';
 import { SCENE_KEY } from '../enum/scene';
-import { ASSET_LOADER_EVENT } from '../lib/enum/assetLoader';
-import { AssetLoader } from '../lib/loader/assetLoader';
-import { AssetLoadingUI } from '../lib/loader/assetLoadingUI';
-import ShopeeWebBridge from '../lib/webBridge/shopeeWebBridge';
 const { ccclass, property } = _decorator;
 
 @ccclass('PreloadScene')
@@ -18,13 +14,7 @@ export class PreloadScene extends Component {
 
     @property(AssetLoadingUI)
     public readonly assetLoadingUI?: AssetLoadingUI;
-
-    @property(PreloadControl)
-    public readonly preloadControl?: PreloadControl;
-
-    @property(BackgroundMusic)
-    public readonly backgroundMusic?: BackgroundMusic | null;
-
+    
     onLoad () {
         this.setupWebBridge();
     }
@@ -67,34 +57,14 @@ export class PreloadScene extends Component {
     }
 
     private onComplete() {
-        const { preloadControl } = this;
-
         this.spawnBackgroundMusic();
-        preloadControl?.registerTouchEvent();
-        preloadControl?.node.once(PRELOAD_CONTROL_EVENT.TOUCH_END, this.goToTitleScene, this);
     }
 
     private goToTitleScene() {
-        director.loadScene(SCENE_KEY.TITLE, () => {
-            /** Get the background music persist node. */
-            const persistBackgroundMusicNode = find('BackgroundMusic');
-            const backgroundMusicAudioSource = persistBackgroundMusicNode?.getComponent(BackgroundMusic);
-            /** Play/replay the music of the peristent background music node. */
-            backgroundMusicAudioSource?.replay(.5);
-        });
+        director.loadScene(SCENE_KEY.TITLE);
     }
 
     private spawnBackgroundMusic () {
-        const { backgroundMusic } = this;
-        if (!backgroundMusic) return;
-
-        /**
-         * Play audio with `0` volume to trigger browser autoplay policy.
-         * This audio node will only exists in this scene.
-         */
-        backgroundMusic.play(0);
-
-        /** Add background music node as persist root node. */
-        game.addPersistRootNode(backgroundMusic.node);
+        
     }
 }
