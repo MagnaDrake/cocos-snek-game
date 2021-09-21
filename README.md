@@ -32,3 +32,13 @@ values.yaml:
 Chart.yaml:
 - change description
 - change name
+
+
+-------------------------------
+Templates to change:
+
+build-templates/web-mobile/index.ejs:
+- change <title></title>
+
+preview-template/index.ejs:
+- change <title></title>
