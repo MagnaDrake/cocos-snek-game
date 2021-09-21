@@ -1,0 +1,65 @@
+# application name
+appName: cocos-boilerplate
+
+# pods replica
+replicaCount: 2
+
+# image can be overwritten by deploy.sh
+image:
+  repository: asia-southeast1-docker.pkg.dev/spid-non-prod/spid-non-prod-public/node:12
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# service can be overwritten by deploy.sh
+service:
+  type: ClusterIP
+  port: 80
+
+# networking configuration virtual service or ingress resource
+virtualService:
+  enabled: true
+  path: /cocos-boilerplate
+  rewrite: /
+  hosts:
+    - domain: play.shopee.co.id
+      enabled: true
+    - domain: play.shopee.co.th
+      enabled: true
+    - domain: play.shopee.com.my
+      enabled: true
+    - domain: play.shopee.sg
+      enabled: true
+    - domain: play.shopee.vn
+      enabled: true
+    - domain: play.shopee.tw
+      enabled: true
+    - domain: play.shopee.ph
+      enabled: true
+    - domain: play.shopee.com.br
+      enabled: true
+
+ingress:
+  enabled: false
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+envoyFilter:
+  enabled: true
+  c: puzzle_bobble
+  pid: games_sharing
+  exception:
+    - path: api
+    - path: cms
+    - path: admin

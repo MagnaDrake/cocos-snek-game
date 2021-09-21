@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "chart.fullname" . }}-service
+  labels:
+    app: {{ .Values.appName }}
+spec:
+  ports:
+  - name: http
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.port }}
+    protocol: TCP
+  selector:
+    app: {{ .Values.appName }}
+  type: {{ .Values.service.type }}

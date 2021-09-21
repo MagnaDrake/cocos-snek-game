@@ -1,0 +1,11 @@
+import { _decorator, Component, Node, Color } from 'cc';
+import { ASSET_KEY } from '../enum/asset';
+import { BaseSprite } from '../lib/sprite/baseSprite';
+const { ccclass, property } = _decorator;
+
+@ccclass('LoadingChickSprite')
+export class LoadingChickSprite extends BaseSprite {
+    constructor() {
+        super('LoadingChickSprite', ASSET_KEY.LOADING_CHICK_SPRITE);
+    }
+}

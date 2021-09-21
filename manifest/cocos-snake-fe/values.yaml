@@ -1,0 +1,83 @@
+# application name
+appName: cocos-boilerplate
+
+# pods replica
+replicaCount: 2
+
+# image can be overwritten by deploy.sh
+image:
+  repository: asia.gcr.io/spid-non-prod/cocos-boilerplate-[YOUR_NAMESPACE]
+  tag: [IMAGE_TAG]
+  pullPolicy: IfNotPresent
+
+# service can be overwritten by deploy.sh
+service:
+  type: ClusterIP
+  port: 80
+
+# networking configuration virtual service or ingress resource
+virtualService:
+  enabled: false
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/service-upstream: true
+  path: /cocos-boilerplate
+  hosts:
+    - name: play.test.shopee.co.id
+      secretName: test-id-tls
+      countryCode: id
+      tls:
+        enabled: true
+    - name: play.test.shopee.co.th
+      secretName: test-th-tls
+      countryCode: th
+      tls:
+        enabled: true
+    - name: play.test.shopee.com.my
+      secretName: test-my-tls
+      countryCode: my
+      tls:
+        enabled: true
+    - name: play.test.shopee.sg
+      secretName: test-sg-tls
+      countryCode: sg
+      tls:
+        enabled: true
+    - name: play.test.shopee.vn
+      secretName: test-vn-tls
+      countryCode: vn
+      tls:
+        enabled: true
+    - name: play.test.shopee.ph
+      secretName: test-ph-tls
+      countryCode: ph
+      tls:
+        enabled: true
+    - name: play.test.shopee.tw
+      secretName: test-tw-tls
+      countryCode: tw
+      tls:
+        enabled: true
+    - name: play.test.shopee.com.br
+      secretName: test-br-tls
+      countryCode: br
+      tls:
+        enabled: true
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 256Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

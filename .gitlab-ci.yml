@@ -1,0 +1,72 @@
+image: asia-southeast1-docker.pkg.dev/spid-non-prod/spid-non-prod-public/pipeline-runner:latest
+
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  APP_NAME: cocos-boilerplate
+  APP_TEAM: games
+
+cache:
+  key: '$CI_COMMIT_REF_SLUG'
+  untracked: true
+
+before_script:
+  - eval "$(curl -Ls ${VAULT_ADDRESS}/scripts/bash/libs/pipeline.sh)"
+
+test:
+  stage: test
+  tags:
+    - docker.sock
+  image: node:12.17.0
+  cache:
+    key: '$CI_COMMIT_REF_SLUG'
+    paths:
+      - build/
+  script:
+    - set_environment
+
+build:
+  stage: build
+  tags:
+    - docker.sock
+  script:
+    - set_environment
+    - config_gcloud
+    - build_push_docker
+  only:
+    - test
+    - uat
+    - master
+
+deploy:non-prod:
+  stage: deploy
+  dependencies: []
+  environment:
+    name: ${CI_COMMIT_REF_NAME}
+  tags:
+    - docker.sock
+  script:
+    - set_environment
+    - config_gcloud
+    - helm_deploy
+  only:
+    - test
+    - uat
+
+deploy:prod:
+  stage: deploy
+  dependencies: []
+  environment:
+    name: production
+  tags:
+    - docker.sock
+  script:
+    - set_environment
+    - config_gcloud
+    - helm_deploy
+  when: manual
+  only:
+    - master
