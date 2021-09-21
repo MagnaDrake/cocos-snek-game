@@ -68,20 +68,17 @@ export class BaseAudio extends Component {
         this.setVolume(vol ?? volume);
     }
 
-    play (vol?: number) {
+    public play(vol?: number) {
         this.reload(vol);
         this.audioSource?.play();
     }
 
-    stop() {
+    public stop() {
         this.audioSource?.stop();
     }
 
-    replay (vol?: number) {
-        const { audioSource } = this
-        if (!audioSource) return;
-
-        audioSource.currentTime = 0;
+    public replay(vol?: number) {
+        this.stop();
         this.play(vol);
     }
 }
