@@ -10,7 +10,14 @@ export function getAssets() {
         key: ASSET_KEY.TOMATO_SPRITE,
         type: ASSET_TYPE.IMAGE,
         url: '',
-        localUrl: 'sample/image/tomato'
+        localUrl: 'sample/image/tomato',
+    });
+
+    assets.push({
+        key: ASSET_KEY.WHITE_BOX_SPRITE,
+        type: ASSET_TYPE.IMAGE,
+        url: '',
+        localUrl: 'sample/image/white_box',
     });
 
     return assets;

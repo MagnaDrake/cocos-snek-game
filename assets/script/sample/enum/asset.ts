@@ -5,7 +5,6 @@ export enum ASSET_KEY {
 
   // Font
   SHOPEE_2021_BOLD_FONT = 'shopee_2021_bold_font',
-  SHOPEE_2021_MEDIUM_FONT = 'shopee_2021_medium_font',
 
   // Audio
   BG_MUSIC = 'bg_music',
