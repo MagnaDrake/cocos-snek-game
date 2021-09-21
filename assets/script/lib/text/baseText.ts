@@ -2,6 +2,9 @@ import { _decorator, Component, Node, RichText, assetManager, TTFFont, Color } f
 import { getTextWithColor } from '../util/richText';
 const { ccclass, property } = _decorator;
 
+/**
+ * @deprecated currently RichText has no clear benefit compared to Label while being much more complicated to use, so use BaseLabel instead
+ */
 @ccclass('BaseText')
 export class BaseText extends Component {
     @property(Color)

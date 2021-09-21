@@ -1,15 +1,15 @@
 import { _decorator, Component } from 'cc';
-import { BaseText } from '../../../lib/text/baseText';
+import { BaseLabel } from '../../../lib/text/baseLabel';
 import { LoadingBar } from './loadingBar';
 const { ccclass, property } = _decorator;
 
 @ccclass('AssetLoadingUI')
 export class AssetLoadingUI extends Component {
-    @property(BaseText)
-    public percentLoadText?: BaseText;
+    @property(BaseLabel)
+    public percentLoadText?: BaseLabel;
 
-    @property(BaseText)
-    public urlLoadText?: BaseText;
+    @property(BaseLabel)
+    public urlLoadText?: BaseLabel;
 
     @property(LoadingBar)
     public readonly loadingBar?: LoadingBar; 
@@ -21,9 +21,7 @@ export class AssetLoadingUI extends Component {
         this.loadingBar?.drawInnerGraphics(progressPercent);
 
         if (percentLoadText) {
-            percentLoadText.setText(
-              `<outline width=4>${progressPercent}%</outline>`
-            );
+            percentLoadText.setText(`${progressPercent}%`);
         }
         
         if (urlLoadText) {
