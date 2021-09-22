@@ -25,6 +25,7 @@ export class BaseText extends Component {
     }
 
     public setText(text: string) {
+        this.reload();
         const { richText, textColor } = this;
         if (richText) {
             richText.string = getTextWithColor(text, textColor);
