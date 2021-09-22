@@ -2,7 +2,7 @@ import { _decorator, Component, Node, AudioSource, AudioClip, assetManager, game
 import { BASE_AUDIO_EVENT } from '../enum/audio';
 import { GAME_EVENT } from '../enum/game';
 import { getSoundStateFromLocalStorage } from '../util/localStorage';
-const { ccclass } = _decorator;
+const { ccclass, property } = _decorator;
 
 @ccclass('BaseAudio')
 export class BaseAudio extends Component {
