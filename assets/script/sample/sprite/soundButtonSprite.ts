@@ -19,6 +19,5 @@ export class SoundButtonSprite extends BaseSprite {
      */
     public setButtonSprite(toOn: boolean) {
         this.setTexture(toOn ? this.soundButtonOnKey : this.soundButtonOffKey);
-        this.reload();
     }
 }

@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, AudioSource, AudioClip, assetManager, game } from 'cc';
+import { BASE_AUDIO_EVENT } from '../enum/audio';
 import { GAME_EVENT } from '../enum/game';
 import { getSoundStateFromLocalStorage } from '../util/localStorage';
 const { ccclass, property } = _decorator;
@@ -24,6 +25,59 @@ export class BaseAudio extends Component {
         this.node.once(Node.EventType.NODE_DESTROYED, () => {
             game.off(GAME_EVENT.SOUND_STATE_CHANGE, this.onSoundStateChange, this);
         });
+        this.reload(this.volume);
+    }
+
+    /**
+     * Play the clip. Resume if paused.
+     * @param vol Set new volume for audio source.
+     */
+    public play(vol?: number): void {
+        this.reload();
+        if (this.audioSource) {
+            if (vol) this.setVolume(vol);
+            this.audioSource.play();
+            this.node.emit(BASE_AUDIO_EVENT.PLAY, this.audioKey);
+        }
+    }
+
+    /**
+     * Pause the clip.
+     */
+    public pause(): void {
+        this.reload();
+        if (this.audioSource) {
+            this.audioSource.pause();
+            this.node.emit(BASE_AUDIO_EVENT.PAUSE, this.audioKey);
+        }
+    }
+
+    /**
+     * Stop the clip.
+     */
+    public stop(): void {
+        this.reload();
+        if (this.audioSource) {
+            this.audioSource.stop();
+            this.node.emit(BASE_AUDIO_EVENT.STOP, this.audioKey);
+        }
+    }
+
+    /**
+     * Stop and play the clip.
+     * @param vol Set new volume for audio source.
+     */
+    public replay(vol?: number): void {
+        this.stop();
+        this.play(vol);
+    }
+
+    public reload(vol?: number) {
+        if (!this.audioSource) {
+            this.audioSource = this.getComponent(AudioSource);
+            this.audioClip = this.getAudioClip();
+            this.setupAudio(vol);
+        }
     }
 
     private onSoundStateChange() {
@@ -48,12 +102,6 @@ export class BaseAudio extends Component {
         this.volume = volume;
     }
 
-    private reload(vol?: number) {
-        this.audioSource = this.getComponent(AudioSource);
-        this.audioClip = this.getAudioClip();
-        this.setupAudio(vol);
-    }
-
     private getAudioClip() {
         return assetManager.assets.get(this.audioKey) as AudioClip;
     }
@@ -66,19 +114,5 @@ export class BaseAudio extends Component {
         audioSource.clip = audioClip;
         audioSource.loop = loop;
         this.setVolume(vol ?? volume);
-    }
-
-    public play(vol?: number) {
-        this.reload(vol);
-        this.audioSource?.play();
-    }
-
-    public stop() {
-        this.audioSource?.stop();
-    }
-
-    public replay(vol?: number) {
-        this.stop();
-        this.play(vol);
     }
 }

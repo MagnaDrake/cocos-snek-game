@@ -24,8 +24,18 @@ export class BaseText extends Component {
         this.reloadTextWithAssignedColor();
     }
 
+    public setText(text: string) {
+        this.reload();
+        const { richText, textColor } = this;
+        if (richText) {
+            richText.string = getTextWithColor(text, textColor);
+        }
+    }
+
     public reload() {
-        this.richText = this.getComponent(RichText);
+        if (!this.richText) {
+            this.richText = this.getComponent(RichText)
+        };
         this.setupFont();
     }
 
@@ -36,21 +46,12 @@ export class BaseText extends Component {
 
     protected setupFont() {
         const { richText } = this;
-        if (richText) {
+        if (richText && !richText.font) {
             richText.font = this.getFont();
         }
     }
 
     protected getFont() {
         return assetManager.assets.get(this.fontKey) as TTFFont;
-    }
-
-    public setText(text: string) {
-        this.reload();
-        
-        const { richText, textColor } = this;
-        if (richText) {
-            richText.string = getTextWithColor(text, textColor);
-        }
     }
 }

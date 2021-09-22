@@ -25,13 +25,53 @@ export class BaseSprite extends Component {
     }
 
     public reload() {
-        this.sprite = this.getComponent(Sprite);
-        this.uiTransform = this.getComponent(UITransform);
-        this.animation = this.getComponent(Animation);
+        if (!this.sprite) {
+            this.sprite = this.getComponent(Sprite);
+        }
+        if (!this.uiTransform) {
+            this.uiTransform = this.getComponent(UITransform);
+        }
+        if (!this.animation) {
+            this.animation = this.getComponent(Animation);
+        }
         this.presetDimension = this.getPresetDimension();
         
         this.setupSprite();
         this.adjustSize();
+    }
+
+    /**
+     * @param opacity 0 to 255
+     */
+    public setOpacity(opacity: number): void {
+        const { r, g, b } = this.sprite?.color || { r: 255, g: 255, b: 255 };
+        this.setColor(color(r, g, b, opacity));
+    }
+
+    public setColor(color: Color): void {
+        this.reload();
+        if (this.sprite) {
+            this.sprite.color = color;
+        }
+    }
+
+    public setRotation(rotation: Vec3): void {
+        this.node.setRotationFromEuler(rotation);
+    }
+
+    public setActive(active: boolean): void {
+        this.node.active = active;
+    }
+
+    public setFrame(frameKey?: number | string): void {
+        this.frameKey = frameKey;
+        this.reload();
+    }
+
+    public setTexture(textureKey: string, frameKey?: number | string): void {
+        this.textureKey = textureKey;
+        this.frameKey = frameKey;
+        this.reload();
     }
 
     protected getPresetDimension() {
@@ -58,35 +98,5 @@ export class BaseSprite extends Component {
         const { width, height } = presetDimension;
 
         uiTransform?.setContentSize(width, height);
-    }
-
-    /**
-     * @param opacity 0 to 255
-     */
-    public setOpacity(opacity: number) {
-        const { r, g, b } = this.sprite?.color || { r: 255, g: 255, b: 255 };
-        this.setColor(color(r, g, b, opacity));
-    }
-
-    public setColor(color: Color) {
-        if (this.sprite) {
-            this.sprite.color = color;
-        }
-    }
-
-    public setRotation(rotation: Vec3) {
-        this.node.setRotationFromEuler(rotation);
-    }
-
-    public setActive(active: boolean) {
-        this.node.active = active;
-    }
-
-    public setFrame(frameKey?: number | string) {
-        this.frameKey = frameKey;
-    }
-
-    public setTexture(textureKey: string) {
-        this.textureKey = textureKey;
     }
 }
