@@ -9,7 +9,7 @@ Scripts within the `sample` directory contain examples of objects created using 
 
 If there are any suggestions for `lib` or `sample` updates, feel free to create a merge request to be reviewed.
 
-The sample can be accessed at https://play.test.co.id/cocos-boilerplate/
+The sample can be accessed at https://play.test.shopee.co.id/cocos-boilerplate/
 
 For builds, you can refer to this image as a sample with key points being `name`, `platform`, `build path`, and `included scenes` (don't forget to set default to preload)
 
