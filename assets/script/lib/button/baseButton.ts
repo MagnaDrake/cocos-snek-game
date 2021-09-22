@@ -41,6 +41,9 @@ export class BaseButton extends Button {
     if (!this.labelChild) {
       this.labelChild = this.getComponentInChildren(Label);
     }
+    if (!this.presetDimension) {
+        this.presetDimension = this.getPresetDimension();
+    }
 
     this.setupSprite();
     this.setupFont();
@@ -48,6 +51,7 @@ export class BaseButton extends Button {
   }
 
   public setText(text: string) {
+    this.reload();
     if (this.labelChild) {
       this.labelChild.string = text;
     }
@@ -67,6 +71,15 @@ export class BaseButton extends Button {
       this.sprite.spriteFrame = this.getSpriteFrame(textureKey, frameKey);
     }
     this.normalSprite = this.getSpriteFrame(textureKey, frameKey);
+  }
+
+  protected getPresetDimension() {
+    const { presetDimension, uiTransform } = this;
+
+    if (!uiTransform) return presetDimension;
+
+    const { width, height } = uiTransform;
+    return { width, height };
   }
 
   protected adjustSize() {
