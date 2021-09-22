@@ -36,8 +36,6 @@ export class BaseLabel extends Component {
   }
 
   public setText(text: string) {
-    this.reload();
-
     const { label } = this;
     if (label) {
       label.string = text;
