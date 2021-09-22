@@ -34,9 +34,7 @@ export class BaseSprite extends Component {
         if (!this.animation) {
             this.animation = this.getComponent(Animation);
         }
-        if (!this.presetDimension) {
-            this.presetDimension = this.getPresetDimension();
-        }
+        this.presetDimension = this.getPresetDimension();
         
         this.setupSprite();
         this.adjustSize();
@@ -46,7 +44,6 @@ export class BaseSprite extends Component {
      * @param opacity 0 to 255
      */
     public setOpacity(opacity: number): void {
-        this.reload();
         const { r, g, b } = this.sprite?.color || { r: 255, g: 255, b: 255 };
         this.setColor(color(r, g, b, opacity));
     }
@@ -59,26 +56,22 @@ export class BaseSprite extends Component {
     }
 
     public setRotation(rotation: Vec3): void {
-        this.reload();
         this.node.setRotationFromEuler(rotation);
     }
 
     public setActive(active: boolean): void {
-        this.reload();
         this.node.active = active;
     }
 
     public setFrame(frameKey?: number | string): void {
-        this.reload();
         this.frameKey = frameKey;
-        this.setupSprite();
+        this.reload();
     }
 
     public setTexture(textureKey: string, frameKey?: number | string): void {
-        this.reload();
         this.textureKey = textureKey;
         this.frameKey = frameKey;
-        this.setupSprite();
+        this.reload();
     }
 
     protected getPresetDimension() {

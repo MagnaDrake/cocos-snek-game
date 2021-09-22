@@ -41,9 +41,7 @@ export class BaseButton extends Button {
     if (!this.labelChild) {
       this.labelChild = this.getComponentInChildren(Label);
     }
-    if (!this.presetDimension) {
-        this.presetDimension = this.getPresetDimension();
-    }
+    this.presetDimension = this.getPresetDimension();
 
     this.setupSprite();
     this.setupFont();
