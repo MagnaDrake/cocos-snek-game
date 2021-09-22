@@ -42,21 +42,6 @@ export class BaseAudio extends Component {
     }
 
     /**
-     * Play the clip. Clip can be played multiple times independently and simultaneously without interfering with each other.
-     * 
-     * Usually used for sound effects.
-     * @param vol Set new volume for audio source.
-     */
-    public playOneShot(vol?: number): void {
-        this.reload();
-        if (this.audioSource && this.audioClip) {
-            if (vol) this.setVolume(vol);
-            this.audioSource.playOneShot(this.audioClip);
-            this.node.emit(BASE_AUDIO_EVENT.PLAY_ONE_SHOT, this.audioKey);
-        }
-    }
-
-    /**
      * Pause the clip.
      */
     public pause(): void {
