@@ -1,7 +1,7 @@
 # cocos-boilerplate
 Welcome to Cocos Boilerplate!
 
-The purpose of this boilerplate is to facilitate in setting up new cocos projects, and to help those who just started on the entry task.
+The purpose of this boilerplate is to standardize our code base, facilitate the setup of new cocos projects, and to help those who just started on the entry task.
 
 Scripts within the `lib` directory are to be regularly updated as our expertise in Cocos grow, but the goal is to keep it thin and effective.
 
@@ -10,6 +10,8 @@ Scripts within the `sample` directory contain examples of objects created using 
 If there are any suggestions for `lib` or `sample` updates, feel free to create a merge request to be reviewed.
 
 The sample can be accessed at https://play.test.co.id/cocos-boilerplate/
+
+For builds, you can refer to this image as a sample with key points being `name`, `project path`, and `included scenes` (don't forget to set default to preload)
 
 Good luck!
 
