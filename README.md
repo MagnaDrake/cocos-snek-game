@@ -11,7 +11,9 @@ If there are any suggestions for `lib` or `sample` updates, feel free to create 
 
 The sample can be accessed at https://play.test.co.id/cocos-boilerplate/
 
-For builds, you can refer to this image as a sample with key points being `name`, `project path`, and `included scenes` (don't forget to set default to preload)
+For builds, you can refer to this image as a sample with key points being `name`, `build path`, and `included scenes` (don't forget to set default to preload)
+
+<img src="/screenshot/build.png"  width="360">
 
 Good luck!
 
