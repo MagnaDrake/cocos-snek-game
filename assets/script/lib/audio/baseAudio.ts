@@ -33,6 +33,7 @@ export class BaseAudio extends Component {
      * @param vol Set new volume for audio source.
      */
     public play(vol?: number): void {
+        this.reload();
         if (this.audioSource) {
             if (vol) this.setVolume(vol);
             this.audioSource.play();
@@ -47,6 +48,7 @@ export class BaseAudio extends Component {
      * @param vol Set new volume for audio source.
      */
     public playOneShot(vol?: number): void {
+        this.reload();
         if (this.audioSource && this.audioClip) {
             if (vol) this.setVolume(vol);
             this.audioSource.playOneShot(this.audioClip);
@@ -58,6 +60,7 @@ export class BaseAudio extends Component {
      * Pause the clip.
      */
     public pause(): void {
+        this.reload();
         if (this.audioSource) {
             this.audioSource.pause();
             this.node.emit(BASE_AUDIO_EVENT.PAUSE, this.audioKey);
@@ -68,6 +71,7 @@ export class BaseAudio extends Component {
      * Stop the clip.
      */
     public stop(): void {
+        this.reload();
         if (this.audioSource) {
             this.audioSource.stop();
             this.node.emit(BASE_AUDIO_EVENT.STOP, this.audioKey);
@@ -81,6 +85,14 @@ export class BaseAudio extends Component {
     public replay(vol?: number): void {
         this.stop();
         this.play(vol);
+    }
+
+    public reload(vol?: number) {
+        if (!this.audioSource) {
+            this.audioSource = this.getComponent(AudioSource);
+            this.audioClip = this.getAudioClip();
+            this.setupAudio(vol);
+        }
     }
 
     private onSoundStateChange() {
@@ -103,12 +115,6 @@ export class BaseAudio extends Component {
         }
 
         this.volume = volume;
-    }
-
-    private reload(vol?: number) {
-        this.audioSource = this.getComponent(AudioSource);
-        this.audioClip = this.getAudioClip();
-        this.setupAudio(vol);
     }
 
     private getAudioClip() {

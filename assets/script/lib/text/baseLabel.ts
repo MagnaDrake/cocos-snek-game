@@ -19,26 +19,29 @@ export class BaseLabel extends Component {
     this.reload();
   }
 
+  public setText(text: string) {
+    this.reload();
+    const { label } = this;
+    if (label) {
+      label.string = text;
+    }
+  }
+
   public reload() {
-    this.label = this.getComponent(Label);
+    if (!this.label) {
+      this.label = this.getComponent(Label);
+    }
     this.setupFont();
   }
 
   protected setupFont() {
     const { label } = this;
-    if (label) {
+    if (label && !label.font) {
       label.font = this.getFont();
     }
   }
 
   protected getFont() {
     return assetManager.assets.get(this.fontKey) as TTFFont;
-  }
-
-  public setText(text: string) {
-    const { label } = this;
-    if (label) {
-      label.string = text;
-    }
   }
 }

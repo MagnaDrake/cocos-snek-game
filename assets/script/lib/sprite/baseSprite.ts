@@ -25,10 +25,18 @@ export class BaseSprite extends Component {
     }
 
     public reload() {
-        this.sprite = this.getComponent(Sprite);
-        this.uiTransform = this.getComponent(UITransform);
-        this.animation = this.getComponent(Animation);
-        this.presetDimension = this.getPresetDimension();
+        if (!this.sprite) {
+            this.sprite = this.getComponent(Sprite);
+        }
+        if (!this.uiTransform) {
+            this.uiTransform = this.getComponent(UITransform);
+        }
+        if (!this.animation) {
+            this.animation = this.getComponent(Animation);
+        }
+        if (!this.presetDimension) {
+            this.presetDimension = this.getPresetDimension();
+        }
         
         this.setupSprite();
         this.adjustSize();
