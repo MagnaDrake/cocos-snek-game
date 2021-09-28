@@ -4,6 +4,7 @@ import {
   assetManager,
   TTFFont,
   Label,
+  Color,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -19,11 +20,22 @@ export class BaseLabel extends Component {
     this.reload();
   }
 
+  public getText() {
+    return this.label?.string;
+  }
+
   public setText(text: string) {
     this.reload();
     const { label } = this;
     if (label) {
       label.string = text;
+    }
+  }
+
+  public setColor(color: Color) {
+    this.reload();
+    if (this.label) {
+      this.label.color = color;
     }
   }
 
