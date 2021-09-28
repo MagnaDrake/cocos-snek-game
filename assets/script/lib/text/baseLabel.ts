@@ -12,16 +12,16 @@ const { ccclass, property } = _decorator;
 export class BaseLabel extends Component {
   protected label?: Label | null;
 
-  public get Text() {
-    return this.label?.string;
-  }
-
   constructor(name: string, protected fontKey: string) {
     super(name);
   }
 
   onLoad() {
     this.reload();
+  }
+
+  public getText() {
+    return this.label?.string;
   }
 
   public setText(text: string) {
