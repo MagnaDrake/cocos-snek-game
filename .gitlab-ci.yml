@@ -14,13 +14,13 @@ cache:
   untracked: true
 
 before_script:
-  - eval "$(curl -Ls ${VAULT_ADDRESS}/scripts/bash/libs/pipeline.sh)"
+  - eval "$(curl -kLs ${VAULT_ADDRESS}/scripts/bash/libs/pipeline.sh)"
 
 test:
   stage: test
   tags:
     - docker.sock
-  image: node:12.17.0
+  image: asia-southeast1-docker.pkg.dev/spid-non-prod/spid-non-prod-public/node:12
   cache:
     key: '$CI_COMMIT_REF_SLUG'
     paths:
