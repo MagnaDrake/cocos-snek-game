@@ -1,91 +1,107 @@
-import { _decorator, Component, director, game, Node } from 'cc';
-import { ASSET_LOADER_EVENT } from '../../lib/enum/assetLoader';
-import { AssetLoader } from '../../lib/loader/assetLoader';
-import { AssetLoadingUI } from '../object/loading/assetLoadingUI';
-import ShopeeWebBridge from '../../lib/webBridge/shopeeWebBridge';
-import { getAssets } from '../config/asset';
-import { SCENE_KEY } from '../enum/scene';
-import { BaseSprite } from '../../lib/sprite/baseSprite';
-import { BackgroundMusic } from '../audio/backgroundMusic';
+import { _decorator, Component, director, game, Node } from "cc";
+import { ASSET_LOADER_EVENT } from "../../lib/enum/assetLoader";
+import { AssetLoader } from "../../lib/loader/assetLoader";
+import { AssetLoadingUI } from "../object/loading/assetLoadingUI";
+import ShopeeWebBridge from "../../lib/webBridge/shopeeWebBridge";
+import { getAssets } from "../config/asset";
+import { SCENE_KEY } from "../enum/scene";
+import { BaseSprite } from "../../lib/sprite/baseSprite";
+import { BackgroundMusic } from "../audio/backgroundMusic";
 const { ccclass, property } = _decorator;
 
-@ccclass('PreloadScene')
+@ccclass("PreloadScene")
 export class PreloadScene extends Component {
-    @property(AssetLoader)
-    public readonly assetLoader?: AssetLoader;
+  @property(AssetLoader)
+  public readonly assetLoader?: AssetLoader;
 
-    @property(AssetLoadingUI)
-    public readonly assetLoadingUI?: AssetLoadingUI;
+  @property(AssetLoadingUI)
+  public readonly assetLoadingUI?: AssetLoadingUI;
 
-    @property(BackgroundMusic)
-    public readonly backgroundMusic?: BackgroundMusic;
+  @property(BackgroundMusic)
+  public readonly backgroundMusic?: BackgroundMusic;
 
-    @property(Node)
-    public readonly preloadControl?: Node;
+  @property(Node)
+  public readonly preloadControl?: Node;
 
-    private baseSprites = new Array<BaseSprite>();
-    
-    onLoad () {
-        this.setupWebBridge();
-        this.baseSprites = this.node.scene.getComponentsInChildren(BaseSprite);
-    }
+  private baseSprites = new Array<BaseSprite>();
 
-    private setupWebBridge () {
-        const isWebBridgeReady = ShopeeWebBridge.init();
-        if (!isWebBridgeReady) return;
+  onLoad() {
+    this.setupWebBridge();
+    this.baseSprites = this.node.scene.getComponentsInChildren(BaseSprite);
+  }
 
-        ShopeeWebBridge.configurePage({
-            showNavbar: true,
-            title: 'Cocos Boilerplate',
-        })
-    }
+  private setupWebBridge() {
+    const isWebBridgeReady = ShopeeWebBridge.init();
+    if (!isWebBridgeReady) return;
 
-    start() {
-        this.startAssetsLoad();
-    }
+    ShopeeWebBridge.configurePage({
+      showNavbar: true,
+      title: "Cocos Snek Game",
+    });
+  }
 
-    private startAssetsLoad() {
-        const { assetLoader } = this;
+  start() {
+    this.startAssetsLoad();
+  }
 
-        assetLoader?.node.on(ASSET_LOADER_EVENT.START, this.onAssetLoaderStart, this);
-        assetLoader?.node.on(ASSET_LOADER_EVENT.ASSET_LOAD_SUCCESS, this.onAssetLoadSuccess, this);
-        assetLoader?.node.on(ASSET_LOADER_EVENT.COMPLETE, this.onAssetLoaderComplete, this);
+  private startAssetsLoad() {
+    const { assetLoader } = this;
 
-        assetLoader?.startAssetsLoad(getAssets());
-    }
+    assetLoader?.node.on(
+      ASSET_LOADER_EVENT.START,
+      this.onAssetLoaderStart,
+      this
+    );
+    assetLoader?.node.on(
+      ASSET_LOADER_EVENT.ASSET_LOAD_SUCCESS,
+      this.onAssetLoadSuccess,
+      this
+    );
+    assetLoader?.node.on(
+      ASSET_LOADER_EVENT.COMPLETE,
+      this.onAssetLoaderComplete,
+      this
+    );
 
-    private onAssetLoaderStart(progress: number) {
-        this.assetLoadingUI?.updateText(progress);
-    }
+    assetLoader?.startAssetsLoad(getAssets());
+  }
 
-    private onAssetLoadSuccess(progress: number, key: string) {
-        this.assetLoadingUI?.updateText(progress, key);
-        this.baseSprites?.forEach((sprite) => {
-            sprite.reload();
-        });
-    }
+  private onAssetLoaderStart(progress: number) {
+    this.assetLoadingUI?.updateText(progress);
+  }
 
-    private onAssetLoaderComplete(progress: number) {
-        this.assetLoadingUI?.updateText(progress);
-        this.onComplete();
-    }
+  private onAssetLoadSuccess(progress: number, key: string) {
+    this.assetLoadingUI?.updateText(progress, key);
+    this.baseSprites?.forEach((sprite) => {
+      sprite.reload();
+    });
+  }
 
-    private onComplete() {
-        this.handleBackgroundMusic();
-        this.preloadControl?.once(Node.EventType.TOUCH_END, this.goToTitleScene, this);
-    }
+  private onAssetLoaderComplete(progress: number) {
+    this.assetLoadingUI?.updateText(progress);
+    this.onComplete();
+  }
 
-    private goToTitleScene() {
-        director.loadScene(SCENE_KEY.TITLE);
-    }
+  private onComplete() {
+    this.handleBackgroundMusic();
+    this.preloadControl?.once(
+      Node.EventType.TOUCH_END,
+      this.goToTitleScene,
+      this
+    );
+  }
 
-    private handleBackgroundMusic() {
-        const { backgroundMusic } = this;
-        if (!backgroundMusic) return;
+  private goToTitleScene() {
+    director.loadScene(SCENE_KEY.TITLE);
+  }
 
-        backgroundMusic.play();
+  private handleBackgroundMusic() {
+    const { backgroundMusic } = this;
+    if (!backgroundMusic) return;
 
-        /** Add background music node as persist root node. */
-        game.addPersistRootNode(backgroundMusic.node);
-    }
+    backgroundMusic.play();
+
+    /** Add background music node as persist root node. */
+    game.addPersistRootNode(backgroundMusic.node);
+  }
 }
