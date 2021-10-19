@@ -11,11 +11,12 @@ import {
   color,
   UIOpacity,
 } from "cc";
+import { ISprite } from "../../snek/interface/ISprite";
 import { getSpriteFrameKey } from "../util/spritesheet";
 const { ccclass, property } = _decorator;
 
 @ccclass("BaseSprite")
-export class BaseSprite extends Component {
+export class BaseSprite extends Component implements ISprite {
   protected sprite?: Sprite | null;
 
   protected uiTransform?: UITransform | null;
@@ -117,4 +118,6 @@ export class BaseSprite extends Component {
 
     uiTransform?.setContentSize(width, height);
   }
+
+  adjustTexture(...args: any[]) {}
 }

@@ -7,5 +7,5 @@ export interface ITile {
 }
 
 export interface ITileSprite {
-  adjustTexture(isEven: boolean): any;
+  adjustTexture(any: any): any;
 }
