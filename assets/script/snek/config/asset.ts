@@ -55,13 +55,6 @@ export function getAssets() {
   });
 
   assets.push({
-    key: ASSET_KEY.TILE_SPRITE,
-    type: ASSET_TYPE.IMAGE,
-    url: "",
-    localUrl: "snek/sprite_tile",
-  });
-
-  assets.push({
     key: ASSET_KEY.LOGO_SPRITE,
     type: ASSET_TYPE.IMAGE,
     url: "",
@@ -104,6 +97,17 @@ export function getAssets() {
       frameWidth: 96,
       frameHeight: 96,
       paddingX: 1,
+    },
+  });
+
+  assets.push({
+    key: ASSET_KEY.TILE_SPRITESHEET,
+    type: ASSET_TYPE.SPRITESHEET,
+    url: "",
+    localUrl: "snek/sprite_tile",
+    config: {
+      frameWidth: 48,
+      frameHeight: 48,
     },
   });
 

@@ -8,12 +8,12 @@ export enum ASSET_KEY {
   APPLE_SPRITE = "apple_sprite",
   TROPHY_SPRITE = "trophy_sprite",
   WALL_SPRITE = "wall_sprite",
-  TILE_SPRITE = "tile_sprite",
 
   // Spritesheet
   BLACK_MAGE_SPRITE = "black_mage_sprite",
   SNAKE_SPRITESHEET = "spritesheet_round",
   KEYPAD_SPRITESHEET = "keypad_spritesheet",
+  TILE_SPRITESHEET = "tile_spritesheet",
 
   // Font
   SHOPEE_2021_BOLD_FONT = "shopee_2021_bold_font",
