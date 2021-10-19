@@ -40,7 +40,7 @@ export class Snake extends Component {
 
   private eatCounter = 0;
 
-  private bodyParts = new Array<ISnakePart>();
+  public bodyParts = new Array<ISnakePart>();
 
   private foodBodyParts = new Array<ISnakePart>();
 
@@ -73,7 +73,7 @@ export class Snake extends Component {
   public adjustPartTexture(previousPart: ISnakePart, part: ISnakePart) {
     const { sprite } = part;
     if (previousPart) {
-      const { x, y } = this.getDirectionBetweenParts(part, previousPart);
+      // const { x, y } = this.getDirectionBetweenParts(part, previousPart);
 
       const isTail = part === this.getTail();
       if (isTail) {
@@ -82,13 +82,13 @@ export class Snake extends Component {
         sprite.adjustTexture(SNAKE_BODY_PART.BODY);
       }
 
-      this.setPartDirection(part, x, y);
+      // this.setPartDirection(part, x, y);
     } else {
       const { x, y } = this.movementDirection;
 
       sprite.adjustTexture(SNAKE_BODY_PART.HEAD);
 
-      this.setPartDirection(part, x, y);
+      // this.setPartDirection(part, x, y);
     }
   }
 

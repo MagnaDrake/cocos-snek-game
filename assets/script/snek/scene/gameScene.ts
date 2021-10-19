@@ -27,6 +27,7 @@ export class GameScene extends Component {
   start() {
     const { boardConfig, snakeConfig } = getLevelConfig();
     this.generateBoard(boardConfig);
+    this.generateSnake(snakeConfig);
   }
 
   private generateBoard(config: IBoardConfig) {
@@ -48,6 +49,8 @@ export class GameScene extends Component {
       snake.addPart(x, y, posX, posY);
     });
     snake.initialize(config);
+    console.log(snake);
+    console.log(snake.bodyParts);
   }
 
   // update (deltaTime: number) {
