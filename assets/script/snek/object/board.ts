@@ -64,7 +64,6 @@ export class Board extends Component {
       case TILE_TYPE.WALL: {
         return this.wallSprite;
       }
-
       default: {
         return this.floorSprite;
       }
@@ -86,20 +85,34 @@ export class Board extends Component {
     }
   }
 
+  private isWall(tile: ITile) {
+    const tileType = getTileType(tile.value);
+
+    return tileType === TILE_TYPE.WALL;
+  }
+
+  private isFloor(tile: ITile) {
+    const tileType = getTileType(tile.value);
+
+    return tileType === TILE_TYPE.FLOOR;
+  }
+
   public generateBoardSprites() {
     this.board.forEach((row, rowIndex) => {
       row.forEach((tile, colIndex) => {
         const tileSprite = this.getTileSprite(tile);
         if (tileSprite) {
           const { x, y } = this.getTilePosition(colIndex, rowIndex);
-          const tile = instantiate(tileSprite);
-          tile.node.setParent(this.tileNode || this.node);
-          tile.node.setPosition(x, y);
-          tile.node.active = true;
+          const tile = instantiate(tileSprite.node);
+          tile.setParent(this.tileNode || this.node);
+          tile.setPosition(x, y);
+          tile.active = true;
 
-          tile.adjustTexture((colIndex + rowIndex) % 2 === 0);
+          tile
+            .getComponent(FloorSprite ?? WallSprite)
+            ?.adjustTexture((colIndex + rowIndex) % 2 === 0);
 
-          this.assignNodeToTile(colIndex, rowIndex, tile.node);
+          this.assignNodeToTile(colIndex, rowIndex, tile);
         }
       });
     });

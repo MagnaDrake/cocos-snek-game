@@ -85,7 +85,6 @@ export class PreloadScene extends Component {
 
   private onComplete() {
     this.handleBackgroundMusic();
-    console.log(this.preloadControl);
     this.preloadControl?.registerTouchEvent();
     this.preloadControl?.node.once(Node.EventType.TOUCH_END, () => {
       this.goToTitleScene();
@@ -93,7 +92,6 @@ export class PreloadScene extends Component {
   }
 
   private goToTitleScene() {
-    console.log("go to title");
     director.loadScene(SCENE_KEY.TITLE);
   }
 

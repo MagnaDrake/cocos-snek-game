@@ -31,11 +31,9 @@ export class TitleScene extends Component {
 
   start() {
     this.transitionScreen?.fadeOut(0.5);
-    console.log("transition fadeout");
     this.transitionScreen?.node.once(
       TRANSITION_SCREEN_EVENT.FADE_OUT_COMPLETE,
       () => {
-        console.log("yee haw");
         this.setupPlayButtonClick();
       }
     );
@@ -53,7 +51,6 @@ export class TitleScene extends Component {
     this.transitionScreen?.node.once(
       TRANSITION_SCREEN_EVENT.FADE_IN_COMPLETE,
       () => {
-        console.log("masuk ke game cui legos");
         // todo add game scene
         director.loadScene(SCENE_KEY.GAME);
       }

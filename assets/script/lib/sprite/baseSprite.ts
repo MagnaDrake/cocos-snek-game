@@ -50,7 +50,6 @@ export class BaseSprite extends Component {
     }
     if (!this.uiOpacity) {
       this.uiOpacity = this.getComponent(UIOpacity);
-      console.log(this.uiOpacity, "from base");
     }
 
     this.presetDimension = this.getPresetDimension();

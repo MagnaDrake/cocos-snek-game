@@ -1,12 +1,12 @@
 export enum TILE_TYPE {
-  TILE = "tile",
+  FLOOR = "floor",
   WALL = "wall",
 }
 
 export function getTileType(tileIndex: number) {
   switch (tileIndex) {
     case 0: {
-      return TILE_TYPE.TILE;
+      return TILE_TYPE.FLOOR;
     }
 
     case 1: {
@@ -14,7 +14,7 @@ export function getTileType(tileIndex: number) {
     }
 
     default: {
-      return TILE_TYPE.TILE;
+      return TILE_TYPE.FLOOR;
     }
   }
 }
