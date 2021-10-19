@@ -97,9 +97,7 @@
     "backgroundMusic": {
       "__id__": 62
     },
-    "preloadControl": {
-      "__id__": 25
-    },
+    "preloadControl": null,
     "_id": "00eLxEFU5EQqFwkXTY3qqt"
   },
   {
@@ -707,7 +705,7 @@
     "_id": "9duwxtZEVAFrvPqRibAqk+"
   },
   {
-    "__type__": "b79d6HTPc1FfZHie3JZCyh8",
+    "__type__": "99146Ie8jNIKbiJyyyKRIEF",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -715,7 +713,7 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_id": "5dA2VcDNlJII29wNiXJmJz"
+    "_id": "a7yt9SUtVF9IjU2oVmbWyT"
   },
   {
     "__type__": "cc.UITransform",

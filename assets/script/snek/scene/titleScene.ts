@@ -9,7 +9,7 @@ import {
   instantiate,
   Director,
 } from "cc";
-import { BackgroundSoundtrack } from "../audio/backgroundSoundtrack";
+import { BackgroundMusic } from "../audio/backgroundMusic";
 import { BUTTON_EVENT } from "../enum/button";
 import { SCENE_KEY } from "../enum/scene";
 import { TRANSITION_SCREEN_EVENT } from "../enum/transitionScreen";
@@ -21,17 +21,13 @@ export class TitleScene extends Component {
   @property(Button)
   public readonly playButton?: BaseButton;
 
-  @property(BackgroundSoundtrack)
-  public readonly backgroundSoundtrack?: BackgroundSoundtrack;
+  @property(BackgroundMusic)
+  public readonly backgroundSoundtrack?: BackgroundMusic;
 
   @property(TransitionScreen)
   public readonly transitionScreen?: TransitionScreen;
 
-  onLoad() {
-    ShopeeWebBridge.configurePage({
-      showNavbar: false,
-    });
-  }
+  onLoad() {}
 
   start() {}
 }
