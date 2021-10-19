@@ -48,18 +48,21 @@ export class BaseSprite extends Component {
     if (!this.animation) {
       this.animation = this.getComponent(Animation);
     }
+    if (!this.uiOpacity) {
+      this.uiOpacity = this.getComponent(UIOpacity);
+      console.log(this.uiOpacity, "from base");
+    }
+
     this.presetDimension = this.getPresetDimension();
 
     this.setupSprite();
     this.adjustSize();
   }
 
-  /**
-   * @param opacity 0 to 255
-   */
-  public setOpacity(opacity: number): void {
-    const { r, g, b } = this.sprite?.color || { r: 255, g: 255, b: 255 };
-    this.setColor(color(r, g, b, opacity));
+  public setOpacity(opacity: number) {
+    if (this.uiOpacity) {
+      this.uiOpacity.opacity = opacity;
+    }
   }
 
   public setColor(color: Color): void {

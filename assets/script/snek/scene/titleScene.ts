@@ -29,5 +29,34 @@ export class TitleScene extends Component {
 
   onLoad() {}
 
-  start() {}
+  start() {
+    this.transitionScreen?.fadeOut(0.5);
+    console.log("transition fadeout");
+    this.transitionScreen?.node.once(
+      TRANSITION_SCREEN_EVENT.FADE_OUT_COMPLETE,
+      () => {
+        console.log("yee haw");
+        this.setupPlayButtonClick();
+      }
+    );
+  }
+
+  private setupPlayButtonClick() {
+    this.playButton?.node.on(BUTTON_EVENT.TOUCH_END, () => {
+      this.playButton?.unregisterTouchEvent();
+      this.goToGameScene();
+    });
+  }
+
+  private goToGameScene() {
+    this.transitionScreen?.fadeIn(0.5);
+    this.transitionScreen?.node.once(
+      TRANSITION_SCREEN_EVENT.FADE_IN_COMPLETE,
+      () => {
+        console.log("masuk ke game cui legos");
+        // todo add game scene
+        director.loadScene(SCENE_KEY.GAME);
+      }
+    );
+  }
 }

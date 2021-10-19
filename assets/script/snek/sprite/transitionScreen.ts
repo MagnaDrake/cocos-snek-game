@@ -32,9 +32,14 @@ export class TransitionScreen extends BaseSprite {
   }
 
   fadeOut(duration = 1, color: Color = Color.BLACK, targetOpacity = 0) {
+    console.log("fadeout call");
     this.reload();
+    console.log("reload");
     this.setColor(color);
+    console.log("set color");
     this.setOpacity(255);
+    console.log("set opacity");
+    console.log(this.uiOpacity);
     tween(this.uiOpacity)
       .to(
         duration,
