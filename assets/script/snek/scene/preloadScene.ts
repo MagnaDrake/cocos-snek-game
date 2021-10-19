@@ -7,7 +7,7 @@ import { getAssets } from "../config/asset";
 import { SCENE_KEY } from "../enum/scene";
 import { BaseSprite } from "../../lib/sprite/baseSprite";
 import { BackgroundMusic } from "../audio/backgroundMusic";
-import { PreloadControl } from "../../../resources/snek/preloadControl";
+import { PreloadControl } from "../controller/preloadControl";
 const { ccclass, property } = _decorator;
 
 @ccclass("PreloadScene")
