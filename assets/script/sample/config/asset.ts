@@ -39,23 +39,33 @@ export function getAssets() {
     url: "",
     localUrl: "snek/sprite_apple",
   });
+
   assets.push({
     key: ASSET_KEY.TROPHY_SPRITE,
     type: ASSET_TYPE.IMAGE,
     url: "",
-    localUrl: "snek/image/sprite_trophy",
+    localUrl: "snek/sprite_trophy",
   });
+
   assets.push({
     key: ASSET_KEY.WALL_SPRITE,
     type: ASSET_TYPE.IMAGE,
     url: "",
-    localUrl: "snek/image/sprite_wall",
+    localUrl: "snek/sprite_wall",
   });
+
   assets.push({
     key: ASSET_KEY.TILE_SPRITE,
     type: ASSET_TYPE.IMAGE,
     url: "",
-    localUrl: "snek/image/sprite_tile",
+    localUrl: "snek/sprite_tile",
+  });
+
+  assets.push({
+    key: ASSET_KEY.LOGO_SPRITE,
+    type: ASSET_TYPE.IMAGE,
+    url: "",
+    localUrl: "snek/logo_shopee_ular",
   });
 
   // Spritesheets
@@ -63,7 +73,7 @@ export function getAssets() {
     key: ASSET_KEY.BLACK_MAGE_SPRITE,
     type: ASSET_TYPE.SPRITESHEET,
     url: "",
-    localUrl: "snek/sample/image/black_mage",
+    localUrl: "sample/image/black_mage",
     config: {
       frameWidth: 86,
       frameHeight: 87,
@@ -71,11 +81,12 @@ export function getAssets() {
       paddingY: 1,
     },
   });
+
   assets.push({
     key: ASSET_KEY.KEYPAD_SPRITESHEET,
     type: ASSET_TYPE.SPRITESHEET,
     url: "",
-    localUrl: "snek/image/keypad",
+    localUrl: "snek/keypad",
     config: {
       frameWidth: 124,
       frameHeight: 124,
@@ -83,11 +94,12 @@ export function getAssets() {
       paddingY: 16,
     },
   });
+
   assets.push({
     key: ASSET_KEY.SNAKE_SPRITESHEET,
     type: ASSET_TYPE.SPRITESHEET,
     url: "",
-    localUrl: "snek/image/spritesheet_round",
+    localUrl: "snek/spritesheet_round",
     config: {
       frameWidth: 96,
       frameHeight: 96,
@@ -96,6 +108,7 @@ export function getAssets() {
   });
 
   // Fonts
+
   assets.push({
     key: ASSET_KEY.SHOPEE_2021_BOLD_FONT,
     type: ASSET_TYPE.FONT,
@@ -124,18 +137,21 @@ export function getAssets() {
     url: "",
     localUrl: "snek/eat",
   });
+
   assets.push({
     key: ASSET_KEY.TURN_SFX,
     type: ASSET_TYPE.AUDIO,
     url: "",
     localUrl: "snek/turn",
   });
+
   assets.push({
     key: ASSET_KEY.CRASH_SFX,
     type: ASSET_TYPE.AUDIO,
     url: "",
     localUrl: "snek/crash",
   });
+
   assets.push({
     key: ASSET_KEY.SILENCE_SFX,
     type: ASSET_TYPE.AUDIO,

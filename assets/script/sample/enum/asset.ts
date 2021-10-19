@@ -1,5 +1,6 @@
 export enum ASSET_KEY {
   // Images
+  LOGO_SPRITE = "logo_sprite",
   WHITE_BOX_SPRITE = "white_box_sprite",
   TOMATO_SPRITE = "tomato_sprite",
   SOUND_ON_BUTTON_SPRITE = "sound_on_button_sprite",

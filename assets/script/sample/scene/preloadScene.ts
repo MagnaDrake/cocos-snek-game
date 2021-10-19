@@ -7,6 +7,7 @@ import { getAssets } from "../config/asset";
 import { SCENE_KEY } from "../enum/scene";
 import { BaseSprite } from "../../lib/sprite/baseSprite";
 import { BackgroundMusic } from "../audio/backgroundMusic";
+import { PreloadControl } from "../../../resources/snek/preloadControl";
 const { ccclass, property } = _decorator;
 
 @ccclass("PreloadScene")
@@ -20,8 +21,8 @@ export class PreloadScene extends Component {
   @property(BackgroundMusic)
   public readonly backgroundMusic?: BackgroundMusic;
 
-  @property(Node)
-  public readonly preloadControl?: Node;
+  @property(PreloadControl)
+  public readonly preloadControl?: PreloadControl;
 
   private baseSprites = new Array<BaseSprite>();
 
@@ -84,14 +85,15 @@ export class PreloadScene extends Component {
 
   private onComplete() {
     this.handleBackgroundMusic();
-    this.preloadControl?.once(
-      Node.EventType.TOUCH_END,
-      this.goToTitleScene,
-      this
-    );
+    console.log(this.preloadControl);
+    this.preloadControl?.registerTouchEvent();
+    this.preloadControl?.node.once(Node.EventType.TOUCH_END, () => {
+      this.goToTitleScene();
+    });
   }
 
   private goToTitleScene() {
+    console.log("go to title");
     director.loadScene(SCENE_KEY.TITLE);
   }
 
