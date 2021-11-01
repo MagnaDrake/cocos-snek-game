@@ -2,10 +2,10 @@ import { _decorator, Component, Node, instantiate, math, v2, Vec2 } from "cc";
 import { BaseSprite } from "../../lib/sprite/baseSprite";
 import { getTileType, TILE_TYPE } from "../enum/tile";
 import { ITile, ITileSprite } from "../interface/ITile";
-//import { AppleSprite } from "../sprite/appleSprite";
+import { AppleSprite } from "../sprite/appleSprite";
 import { FloorSprite } from "../sprite/floorSprite";
 import { WallSprite } from "../sprite/wallSprite";
-// import { Snake } from './snake';
+import { Snake } from "./snake";
 const { ccclass, property } = _decorator;
 
 @ccclass("Board")
@@ -18,10 +18,10 @@ export class Board extends Component {
 
   @property(Node)
   public readonly tileNode?: Node;
-  /*
+
   @property(AppleSprite)
   public readonly appleSprite?: AppleSprite;
-  */
+
   private readonly tileSize = 28;
 
   private board = new Array<Array<ITile>>();
@@ -135,5 +135,53 @@ export class Board extends Component {
         }
       });
     });
+  }
+
+  public spawnFruit(snake: Snake) {
+    const { appleSprite, tileNode } = this;
+    // const tile = this.getRandomWalkableTile(snake);
+
+    const tile = this.getRandomTile();
+
+    if (!appleSprite || !tile.node) return;
+
+    const node = instantiate(appleSprite.node);
+    node.setParent(tileNode || this.node);
+    node.setPosition(tile.node.position.x, tile.node.position.y);
+    node.active = true;
+
+    this.fruits.push({
+      node,
+      index: tile.index,
+    });
+  }
+
+  public removeFruit(fruit: { node: Node; index: Vec2 }) {
+    const fruitIndex = this.fruits.findIndex((v) => {
+      return v.index === fruit.index;
+    });
+
+    if (fruit) {
+      fruit.node.destroy();
+      this.fruits.splice(fruitIndex, 1);
+      return true;
+    }
+  }
+
+  getRandomTile() {
+    const col = Math.floor(Math.random() * this.board.length);
+    const row = Math.floor(Math.random() * col);
+
+    return this.board[col][row];
+  }
+
+  public checkFruit(col: number, row: number) {
+    const fruitIndex = this.fruits.findIndex((v) => {
+      const { x, y } = v.index;
+
+      return x === col && y === row;
+    });
+
+    return this.fruits[fruitIndex];
   }
 }

@@ -42,9 +42,11 @@ export class Snake extends Component {
 
   public bodyParts = new Array<ISnakePart>();
 
-  private foodBodyParts = new Array<ISnakePart>();
+  private foodProcessingParts = new Array<ISnakePart>();
 
   private movementDirection = v2(0, 0);
+
+  private hasPerformedMove = false;
 
   start() {
     // [3]
@@ -58,8 +60,8 @@ export class Snake extends Component {
 
     if (!head || !neck) return;
 
-    //const { x, y } = this.getDirectionBetweenParts(neck, head);
-    // this.movementDirection.set(x, y);
+    const { x, y } = this.getDirectionBetweenParts(neck, head);
+    this.movementDirection.set(x, y);
     this.adjustTextures();
   }
 
@@ -73,7 +75,7 @@ export class Snake extends Component {
   public adjustPartTexture(previousPart: ISnakePart, part: ISnakePart) {
     const { sprite } = part;
     if (previousPart) {
-      // const { x, y } = this.getDirectionBetweenParts(part, previousPart);
+      const { x, y } = this.getDirectionBetweenParts(part, previousPart);
 
       const isTail = part === this.getTail();
       if (isTail) {
@@ -82,14 +84,18 @@ export class Snake extends Component {
         sprite.adjustTexture(SNAKE_BODY_PART.BODY);
       }
 
-      // this.setPartDirection(part, x, y);
+      this.setPartOrientation(part, x, y);
     } else {
       const { x, y } = this.movementDirection;
 
       sprite.adjustTexture(SNAKE_BODY_PART.HEAD);
 
-      // this.setPartDirection(part, x, y);
+      this.setPartOrientation(part, x, y);
     }
+  }
+
+  private getDirectionBetweenParts(partA: ISnakePart, partB: ISnakePart) {
+    return v2(partB.index.x - partA.index.x, partB.index.y - partA.index.y);
   }
 
   public addPart(colIndex: number, rowIndex: number, x: number, y: number) {
@@ -100,7 +106,6 @@ export class Snake extends Component {
     const sprite = instantiate(snakeSprite.node);
     sprite.setParent(this.node);
     sprite.setPosition(x, y);
-    console.log(sprite.position);
     sprite.active = true;
 
     const part = {
@@ -152,8 +157,19 @@ export class Snake extends Component {
 
     part.index.set(x, y);
     part.position.set(pos);
-    part.sprite.node.setPosition(pos);
-    // TODO tween the sprite
+    tween(part.sprite.node)
+      .to(
+        this.updateInterval,
+        {
+          position: v3(posX, posY),
+        },
+        {
+          onComplete: () => {
+            if (part === this.Head) this.processFood();
+          },
+        }
+      )
+      .start();
   }
 
   public moveTo(index: Vec2, pos: Vec3) {
@@ -162,6 +178,7 @@ export class Snake extends Component {
 
   private moveHeadTo(index: Vec2, pos: Vec3) {
     this.updateSnakeBodyPositions(this.Head, index, pos, 0);
+    this.adjustTextures();
   }
 
   private updateSnakeBodyPositions(
@@ -172,13 +189,10 @@ export class Snake extends Component {
   ) {
     if (!part || partOrder > this.bodyParts.length) return;
 
-    console.log(part, partOrder, part.index);
-
     // recursion update bodypart but seems like its dumb
     // todo try first then iterate
     // yup its dumb
     const nextPart = this.bodyParts[partOrder + 1];
-    console.log(partOrder, nextPart, partOrder + 1);
     this.updateSnakeBodyPositions(
       nextPart,
       part.index,
@@ -187,6 +201,158 @@ export class Snake extends Component {
     );
 
     this.updatePartPosition(part, index, pos);
+  }
+
+  public startMoveTick() {
+    this.updateMoveScheduler();
+  }
+
+  /**
+   * emit move event and pass current direction heading
+   */
+  moveTick() {
+    this.hasPerformedMove = true;
+    this.node.emit(SNAKE_EVENT.MOVE, this.movementDirection);
+  }
+
+  updateMoveScheduler() {
+    this.unschedule(this.moveTick);
+    this.schedule(this.moveTick, this.updateInterval, macro.REPEAT_FOREVER);
+  }
+
+  public changeDirectionHeading(xDir: number, yDir: number) {
+    this.movementDirection.set(xDir, yDir);
+    this.hasPerformedMove = false;
+
+    //todo check legal move
+  }
+
+  isPartChangingDirection(part: ISnakePart, dirX: number, dirY: number) {
+    const { direction } = part;
+
+    if (!direction) return true;
+
+    if (direction.x === dirX && direction.y === dirY) return false;
+
+    return true;
+  }
+
+  setPartOrientation(part: ISnakePart, dirX: number, dirY: number) {
+    const { direction } = part;
+
+    const shouldRotateOrientation = this.isPartChangingDirection(
+      part,
+      dirX,
+      dirY
+    );
+
+    if (direction) {
+      direction.set(dirX, dirY);
+    } else {
+      part.direction = v2(dirX, dirY);
+    }
+
+    if (shouldRotateOrientation) {
+      this.adjustPartRotation(part);
+    }
+  }
+
+  adjustPartRotation(part: ISnakePart) {
+    const { direction, sprite } = part;
+
+    if (!direction) return;
+
+    const nextRotation = this.getPartAngleByDirection(direction.x, direction.y);
+    const { rotation: currentRotation } = part || {};
+    if (!nextRotation || !currentRotation) return;
+
+    const { x, y, z } = nextRotation;
+
+    const { z: currentZ } = currentRotation;
+
+    /**
+     * To prevent sharp turns
+     */
+    let diffZ = z - currentZ;
+    if (diffZ < -180) {
+      diffZ = (diffZ + 360) % 360;
+    } else if (diffZ > 180) {
+      diffZ = (diffZ - 360) % 360;
+    }
+
+    part.rotation?.set(x, y, z);
+
+    sprite.node.setRotationFromEuler(x, y, z);
+  }
+
+  private getPartAngleByDirection(directionX: number, directionY: number) {
+    if (directionY === -1) {
+      return v3(0, 0, 0);
+    } else if (directionX === 1) {
+      return v3(0, 0, -90);
+    } else if (directionY === 1) {
+      return v3(0, 0, -180);
+    } else if (directionX === -1) {
+      return v3(0, 0, -270);
+    }
+  }
+
+  public eatFruit() {
+    this.animateProcessFood(this.Head);
+  }
+
+  processFood() {
+    const nextParts = this.foodProcessingParts.reduce((res, part) => {
+      const parts = this.bodyParts;
+      const nextPart = parts[parts.indexOf(part) + 1];
+
+      if (nextPart) {
+        res.push(nextPart);
+      }
+
+      return res;
+    }, new Array<ISnakePart>());
+
+    this.foodProcessingParts = [];
+
+    nextParts.forEach((part) => {
+      this.animateProcessFood(part);
+
+      if (part === this.getTail()) {
+        //this.incrementEatCounter();
+        //this.spawnNewTail();
+      }
+    });
+  }
+
+  animateProcessFood(part: ISnakePart) {
+    const { glowColor, baseColor } = this;
+
+    tween(part.sprite.node)
+      .to(
+        this.updateInterval * 0.5,
+        {
+          scale: v3(2, 1, 1),
+        },
+        {
+          onStart() {
+            part.sprite.setColor(glowColor);
+          },
+        }
+      )
+      .to(
+        this.updateInterval * 0.5,
+        {
+          scale: v3(1, 1, 1),
+        },
+        {
+          onComplete() {
+            part.sprite.setColor(baseColor);
+          },
+        }
+      )
+      .start();
+    this.foodProcessingParts.push(part);
   }
 
   // update (deltaTime: number) {

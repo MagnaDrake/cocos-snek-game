@@ -1,5 +1,6 @@
 import { _decorator, Component, Node } from "cc";
 import { getLevelConfig } from "../config/level";
+import { SnakeController } from "../controller/snakeController";
 import { SCENE_KEY } from "../enum/scene";
 import { IBoardConfig } from "../interface/IBoard";
 import { ISnakeConfig } from "../interface/ISnake";
@@ -24,10 +25,22 @@ export class GameScene extends Component {
   @property(Snake)
   public readonly snake?: Snake;
 
+  @property(SnakeController)
+  public readonly snakeController?: SnakeController;
+
   start() {
     const { boardConfig, snakeConfig } = getLevelConfig();
     this.generateBoard(boardConfig);
     this.generateSnake(snakeConfig);
+
+    this.snakeController?.node.once("yeet", () => {
+      this.startGame();
+      this.generateFruit();
+    });
+  }
+
+  startGame() {
+    this.snakeController?.startSnakeMovement();
   }
 
   private generateBoard(config: IBoardConfig) {
@@ -49,8 +62,12 @@ export class GameScene extends Component {
       snake.addPart(x, y, posX, posY);
     });
     snake.initialize(config);
-    console.log(snake);
-    console.log(snake.bodyParts);
+  }
+
+  private generateFruit() {
+    if (this.snake) {
+      this.board?.spawnFruit(this.snake);
+    }
   }
 
   // update (deltaTime: number) {
