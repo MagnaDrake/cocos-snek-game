@@ -43,8 +43,8 @@ export class GameScene extends Component {
     if (!board || !snake) return;
 
     const { parts } = config;
-    parts.forEach((val) => {
-      const { x, y } = val;
+    parts.forEach((part) => {
+      const { x, y } = part;
       const { x: posX, y: posY } = board.getTilePosition(x, y);
       snake.addPart(x, y, posX, posY);
     });

@@ -100,6 +100,7 @@ export class Snake extends Component {
     const sprite = instantiate(snakeSprite.node);
     sprite.setParent(this.node);
     sprite.setPosition(x, y);
+    console.log(sprite.position);
     sprite.active = true;
 
     const part = {
@@ -118,6 +119,10 @@ export class Snake extends Component {
     return this.bodyParts[0];
   }
 
+  public get Head() {
+    return this.getHead();
+  }
+
   public getTail() {
     return this.bodyParts[this.bodyParts.length - 1];
   }
@@ -133,6 +138,57 @@ export class Snake extends Component {
     this.speedMultiplier = accelerateMultiplier;
     this.speedUpThreshold = accelerateEvery;
     this.minimumInterval = minimum;
+  }
+
+  /**
+   * Updates snake bodypart index and world position
+   * @param part part to update
+   * @param index new board index
+   * @param pos new world position
+   */
+  private updatePartPosition(part: ISnakePart, index: Vec2, pos: Vec3) {
+    const { x, y } = index;
+    const { x: posX, y: posY } = pos;
+
+    part.index.set(x, y);
+    part.position.set(pos);
+    part.sprite.node.setPosition(pos);
+    // TODO tween the sprite
+  }
+
+  public moveTo(index: Vec2, pos: Vec3) {
+    this.moveHeadTo(index, pos);
+  }
+
+  private moveHeadTo(index: Vec2, pos: Vec3) {
+    this.updateSnakeBodyPositions(this.Head, index, pos, 0);
+  }
+
+  private updateSnakeBodyPositions(
+    part: ISnakePart,
+    index: Vec2,
+    pos: Vec3,
+    partOrder: number
+  ) {
+    if (partOrder > this.bodyParts.length) return;
+
+    console.log(part, partOrder, part.index);
+
+    // recursion update bodypart but seems like its dumb
+    // todo try first then iterate
+    // yup its dumb
+    const nextPart = this.bodyParts[partOrder + 1];
+    console.log(partOrder, nextPart, partOrder + 1);
+    if (nextPart) {
+      this.updateSnakeBodyPositions(
+        nextPart,
+        part.index,
+        part.position,
+        partOrder + 1
+      );
+    }
+
+    this.updatePartPosition(part, index, pos);
   }
 
   // update (deltaTime: number) {

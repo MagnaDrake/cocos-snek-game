@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, instantiate, math, v2 } from "cc";
+import { _decorator, Component, Node, instantiate, math, v2, Vec2 } from "cc";
 import { BaseSprite } from "../../lib/sprite/baseSprite";
 import { getTileType, TILE_TYPE } from "../enum/tile";
 import { ITile, ITileSprite } from "../interface/ITile";
@@ -70,11 +70,25 @@ export class Board extends Component {
     }
   }
 
+  /**
+   * Gets tile world position with central anchor
+   * @param colIndex
+   * @param rowIndex
+   * @returns x,y world position
+   */
   public getTilePosition(colIndex: number, rowIndex: number) {
     const { tileSize } = this;
     return {
       x: colIndex * tileSize,
       y: -rowIndex * tileSize,
+    };
+  }
+
+  public getTileIndexFromWorldPosition(pos: Vec2) {
+    const { tileSize } = this;
+    return {
+      col: Math.floor(pos.x / tileSize),
+      row: Math.floor(-pos.y / tileSize),
     };
   }
 
