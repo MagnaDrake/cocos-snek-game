@@ -170,7 +170,7 @@ export class Snake extends Component {
     pos: Vec3,
     partOrder: number
   ) {
-    if (partOrder > this.bodyParts.length) return;
+    if (!part || partOrder > this.bodyParts.length) return;
 
     console.log(part, partOrder, part.index);
 
@@ -179,14 +179,12 @@ export class Snake extends Component {
     // yup its dumb
     const nextPart = this.bodyParts[partOrder + 1];
     console.log(partOrder, nextPart, partOrder + 1);
-    if (nextPart) {
-      this.updateSnakeBodyPositions(
-        nextPart,
-        part.index,
-        part.position,
-        partOrder + 1
-      );
-    }
+    this.updateSnakeBodyPositions(
+      nextPart,
+      part.index,
+      part.position,
+      partOrder + 1
+    );
 
     this.updatePartPosition(part, index, pos);
   }

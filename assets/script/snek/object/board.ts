@@ -99,6 +99,11 @@ export class Board extends Component {
     }
   }
 
+  public getTileFromIndex(colIndex: number, rowIndex: number) {
+    return this.getTile(colIndex, rowIndex);
+    // todo return safetile
+  }
+
   private isWall(tile: ITile) {
     const tileType = getTileType(tile.value);
 
