@@ -20,6 +20,10 @@ import {
 } from "../interface/ISnake";
 import { SnakeSprite } from "../sprite/snakeSprite";
 const { ccclass, property } = _decorator;
+interface IFoodInfo {
+  index: Vec2;
+  position: Vec3;
+}
 
 @ccclass("Snake")
 export class Snake extends Component {
@@ -31,6 +35,8 @@ export class Snake extends Component {
   public readonly snakeSprite?: SnakeSprite;
 
   private updateInterval = 1.0;
+
+  private tweenInterval = 1.0;
 
   private speedMultiplier = 1.0;
 
@@ -44,9 +50,15 @@ export class Snake extends Component {
 
   private foodProcessingParts = new Array<ISnakePart>();
 
+  private processingLocations = new Array<IFoodInfo>();
+
+  private tailQueue = new Array<IFoodInfo>();
+
   private movementDirection = v2(0, 0);
 
   private hasPerformedMove = false;
+
+  private tickCounter = 0;
 
   start() {
     // [3]
@@ -120,7 +132,7 @@ export class Snake extends Component {
     return part;
   }
 
-  public getHead() {
+  private getHead() {
     return this.bodyParts[0];
   }
 
@@ -128,18 +140,27 @@ export class Snake extends Component {
     return this.getHead();
   }
 
-  public getTail() {
+  private getTail() {
     return this.bodyParts[this.bodyParts.length - 1];
   }
 
-  public getNeck() {
+  public get Tail() {
+    return this.getTail();
+  }
+
+  private getNeck() {
     return this.bodyParts[1];
+  }
+
+  public get Neck() {
+    return this.getNeck();
   }
 
   private setupInterval(config: ISnakeUpdateIntervalConfig) {
     const { initial, accelerateMultiplier, accelerateEvery, minimum } = config;
 
-    this.updateInterval = initial;
+    this.updateInterval = initial * 3; // assume 0.3, *3 = 0.9
+    this.tweenInterval = this.updateInterval / 3; // return to 0.3
     this.speedMultiplier = accelerateMultiplier;
     this.speedUpThreshold = accelerateEvery;
     this.minimumInterval = minimum;
@@ -155,25 +176,64 @@ export class Snake extends Component {
     const { x, y } = index;
     const { x: posX, y: posY } = pos;
 
-    part.index.set(x, y);
-    part.position.set(pos);
     tween(part.sprite.node)
       .to(
-        this.updateInterval,
+        this.tweenInterval,
         {
           position: v3(posX, posY),
         },
         {
           onComplete: () => {
-            if (part === this.Head) this.processFood();
+            if (part.index.x === 0 && part.index.y === 0) {
+              console.log("i am now at 0,0");
+            }
+            if (part === this.Head) {
+              if (this.processingLocations) {
+                const lastEatenFood = this.processingLocations.slice(-1)[0];
+                if (
+                  lastEatenFood &&
+                  part.index.x === lastEatenFood.index.x &&
+                  part.index.y === lastEatenFood.index.y
+                ) {
+                  this.animateProcessFood(part);
+                }
+              }
+              this.processFood();
+            }
+            if (part === this.Tail && this.processingLocations) {
+              const firstProcessedFood = this.processingLocations[0];
+              console.log(
+                firstProcessedFood?.index.x,
+                firstProcessedFood?.index.y
+              );
+              console.log(part?.index.x, part?.index.y);
+
+              // not entirely sure the set x,y doesnt evaluate correctly
+              if (
+                firstProcessedFood &&
+                part.index.y === firstProcessedFood.index.y &&
+                part.index.x === firstProcessedFood.index.x
+              ) {
+                this.tailQueue.push(
+                  this.processingLocations.shift() as IFoodInfo
+                );
+              }
+            }
           },
         }
       )
       .start();
+    part.position.set(pos);
+    part.index.set(x, y);
   }
 
   public moveTo(index: Vec2, pos: Vec3) {
     this.moveHeadTo(index, pos);
+    console.log(this.tailQueue);
+    if (this.tailQueue.length > 0) {
+      console.log("ada tail");
+      this.spawnNewTail(this.tailQueue.shift() as IFoodInfo);
+    }
   }
 
   private moveHeadTo(index: Vec2, pos: Vec3) {
@@ -210,9 +270,11 @@ export class Snake extends Component {
   /**
    * emit move event and pass current direction heading
    */
-  moveTick() {
+  public moveTick() {
+    this.tickCounter += 1;
     this.hasPerformedMove = true;
     this.node.emit(SNAKE_EVENT.MOVE, this.movementDirection);
+    console.log("movetick", this.tickCounter);
   }
 
   updateMoveScheduler() {
@@ -297,8 +359,15 @@ export class Snake extends Component {
     }
   }
 
-  public eatFruit() {
-    this.animateProcessFood(this.Head);
+  public eatFruit(index: Vec2, position: Vec3) {
+    const foodInfo: IFoodInfo = {
+      index: v2(index),
+      position: v3(position),
+    };
+    this.processingLocations.push(foodInfo);
+    console.log("eat fruit");
+    console.log(foodInfo.index);
+    console.log(this.Head.index);
   }
 
   processFood() {
@@ -315,13 +384,10 @@ export class Snake extends Component {
 
     this.foodProcessingParts = [];
 
+    console.log(this.bodyParts.indexOf(nextParts[0]));
+
     nextParts.forEach((part) => {
       this.animateProcessFood(part);
-
-      if (part === this.getTail()) {
-        //this.incrementEatCounter();
-        //this.spawnNewTail();
-      }
     });
   }
 
@@ -330,29 +396,53 @@ export class Snake extends Component {
 
     tween(part.sprite.node)
       .to(
-        this.updateInterval * 0.5,
+        this.tweenInterval * 0.5,
         {
           scale: v3(2, 1, 1),
         },
         {
-          onStart() {
+          onStart: () => {
             part.sprite.setColor(glowColor);
+            this.foodProcessingParts.push(part);
           },
         }
       )
       .to(
-        this.updateInterval * 0.5,
+        this.tweenInterval * 0.5,
         {
           scale: v3(1, 1, 1),
         },
         {
-          onComplete() {
+          onComplete: () => {
             part.sprite.setColor(baseColor);
           },
         }
       )
       .start();
-    this.foodProcessingParts.push(part);
+  }
+
+  spawnNewTail(foodInfo: IFoodInfo) {
+    const currentTail = this.Tail;
+    const { rotation, direction } = currentTail;
+    const { index, position } = foodInfo;
+    console.log("spawn tail on index ", index);
+    if (!direction) return false;
+    // not sure why it spawns one tile infront of the tail
+    const part = this.addPart(index.x, index.y, position.x, position.y);
+    part?.rotation.set(rotation);
+    part?.sprite.node.setRotationFromEuler(rotation);
+    part?.sprite.node.setScale(0, 0, 1);
+    part?.sprite.adjustTexture(SNAKE_BODY_PART.TAIL);
+    this.adjustTextures();
+
+    tween(part?.sprite.node)
+      .to(this.tweenInterval * 0.7, {
+        scale: v3(1.25, 1, 1),
+      })
+      .to(this.tweenInterval * 0.3, {
+        scale: v3(1, 1, 1),
+      })
+      .start();
   }
 
   // update (deltaTime: number) {

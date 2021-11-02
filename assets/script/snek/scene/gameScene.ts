@@ -37,6 +37,10 @@ export class GameScene extends Component {
       this.startGame();
       this.generateFruit();
     });
+
+    this.snake?.bodyParts.forEach((part) => {
+      console.log(part.index, part.position);
+    });
   }
 
   startGame() {

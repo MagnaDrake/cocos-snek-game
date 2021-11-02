@@ -60,6 +60,10 @@ export class SnakeController extends Component {
           break;
         }
 
+        case 32: {
+          this.snake?.moveTick();
+        }
+
         default: {
           break;
         }
@@ -107,8 +111,8 @@ export class SnakeController extends Component {
     this.node.emit("yeet", x, y);
   }
 
-  snakeEatFruit(fruit: { node: Node; index: Vec2 }) {
-    this.snake?.eatFruit();
+  snakeEatFruit(fruit: { node: Node; index: Vec2; position: Vec3 }) {
+    this.snake?.eatFruit(fruit.index, fruit.position);
     this.board?.removeFruit(fruit);
   }
 }
