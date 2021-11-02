@@ -209,6 +209,8 @@ export class Snake extends Component {
               console.log(part?.index.x, part?.index.y);
 
               // not entirely sure the set x,y doesnt evaluate correctly
+              // apparently this is due to the scheduler ticking in sync with the tween
+              // and somehow causing problems
               if (
                 firstProcessedFood &&
                 part.index.y === firstProcessedFood.index.y &&
@@ -231,8 +233,8 @@ export class Snake extends Component {
     this.moveHeadTo(index, pos);
     console.log(this.tailQueue);
     if (this.tailQueue.length > 0) {
-      console.log("ada tail");
       this.spawnNewTail(this.tailQueue.shift() as IFoodInfo);
+      this.incrementEatCounter();
     }
   }
 
@@ -283,8 +285,13 @@ export class Snake extends Component {
   }
 
   public changeDirectionHeading(xDir: number, yDir: number) {
-    this.movementDirection.set(xDir, yDir);
-    this.hasPerformedMove = false;
+    if (this.isLegalMove(xDir, yDir)) {
+      this.movementDirection.set(xDir, yDir);
+      this.hasPerformedMove = false;
+      return true;
+    } else {
+      return false;
+    }
 
     //todo check legal move
   }
@@ -297,6 +304,24 @@ export class Snake extends Component {
     if (direction.x === dirX && direction.y === dirY) return false;
 
     return true;
+  }
+
+  private isLegalMove(directionX: number, directionY: number) {
+    const head = this.Head;
+    const neck = this.Neck;
+
+    if (!head || !neck) return true;
+
+    return (
+      !(
+        head.index.x + directionX === neck.index.x &&
+        head.index.y + directionY === neck.index.y
+      ) &&
+      !(
+        this.movementDirection.x === directionX &&
+        this.movementDirection.y === directionY
+      )
+    );
   }
 
   setPartOrientation(part: ISnakePart, dirX: number, dirY: number) {
@@ -427,7 +452,6 @@ export class Snake extends Component {
     const { index, position } = foodInfo;
     console.log("spawn tail on index ", index);
     if (!direction) return false;
-    // not sure why it spawns one tile infront of the tail
     const part = this.addPart(index.x, index.y, position.x, position.y);
     part?.rotation.set(rotation);
     part?.sprite.node.setRotationFromEuler(rotation);
@@ -443,6 +467,22 @@ export class Snake extends Component {
         scale: v3(1, 1, 1),
       })
       .start();
+  }
+
+  public die() {
+    this.unschedule(this.moveTick);
+    console.log("mokad");
+  }
+
+  private incrementEatCounter() {
+    this.eatCounter += 1;
+    if (this.eatCounter % this.speedUpThreshold === 0) {
+      this.updateInterval = Math.max(
+        this.updateInterval * this.speedMultiplier,
+        this.minimumInterval
+      );
+    }
+    this.updateMoveScheduler();
   }
 
   // update (deltaTime: number) {

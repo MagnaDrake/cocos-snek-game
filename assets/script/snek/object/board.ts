@@ -9,6 +9,7 @@ import {
   RichTextComponent,
   RichText,
   v3,
+  ParticleSystem2DAssembler,
 } from "cc";
 import { BaseSprite } from "../../lib/sprite/baseSprite";
 import { getTileType, TILE_TYPE } from "../enum/tile";
@@ -154,9 +155,7 @@ export class Board extends Component {
 
   public spawnFruit(snake: Snake) {
     const { appleSprite, tileNode } = this;
-    // const tile = this.getRandomWalkableTile(snake);
-
-    const tile = this.getRandomTile();
+    const tile = this.getRandomWalkableTile(snake);
 
     if (!appleSprite || !tile.node) return;
 
@@ -191,6 +190,33 @@ export class Board extends Component {
     return this.board[col][row];
   }
 
+  public getWalkableTiles(snake: Snake) {
+    const snakeTiles = snake.bodyParts.map((part) => {
+      const { x, y } = part.index;
+
+      return `${x}|${y}`;
+    });
+
+    return this.board.reduce((res, row, rowIndex) => {
+      const tiles = row.filter((tile, colIndex) => {
+        return (
+          this.isFloor(tile) &&
+          !snakeTiles.find((v) => v === `${colIndex}|${rowIndex}`)
+        );
+      });
+
+      res.push(...tiles);
+
+      return res;
+    }, new Array<ITile>());
+  }
+
+  public getRandomWalkableTile(snake: Snake) {
+    const walkableTiles = this.getWalkableTiles(snake);
+
+    return walkableTiles[Math.floor(Math.random() * walkableTiles.length)];
+  }
+
   public checkFruit(col: number, row: number) {
     const fruitIndex = this.fruits.findIndex((v) => {
       const { x, y } = v.index;
@@ -199,5 +225,18 @@ export class Board extends Component {
     });
 
     return this.fruits[fruitIndex];
+  }
+
+  public checkSafeTile(col: number, row: number, snake: Snake) {
+    const tile = this.getTile(col, row);
+    if (!tile || !snake) return;
+
+    const snakeOnTile = snake.bodyParts.reduce((res, part) => {
+      if (part.index === tile.index) return true;
+
+      return res;
+    }, false);
+
+    return !snakeOnTile && !this.isWall(tile);
   }
 }

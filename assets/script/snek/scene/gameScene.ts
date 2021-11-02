@@ -2,6 +2,7 @@ import { _decorator, Component, Node } from "cc";
 import { getLevelConfig } from "../config/level";
 import { SnakeController } from "../controller/snakeController";
 import { SCENE_KEY } from "../enum/scene";
+import { SNAKE_CONTROLLER_EVENT } from "../enum/snake";
 import { IBoardConfig } from "../interface/IBoard";
 import { ISnakeConfig } from "../interface/ISnake";
 
@@ -12,13 +13,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass("GameScene")
 export class GameScene extends Component {
-  // [1]
-  // dummy = '';
-
-  // [2]
-  // @property
-  // serializableDummy = 0;
-
   @property(Board)
   public readonly board?: Board;
 
@@ -33,10 +27,13 @@ export class GameScene extends Component {
     this.generateBoard(boardConfig);
     this.generateSnake(snakeConfig);
 
-    this.snakeController?.node.once("yeet", () => {
-      this.startGame();
-      this.generateFruit();
-    });
+    this.snakeController?.node.once(
+      SNAKE_CONTROLLER_EVENT.CHANGE_SNAKE_DIRECTION,
+      () => {
+        this.startGame();
+        this.generateFruit();
+      }
+    );
 
     this.snake?.bodyParts.forEach((part) => {
       console.log(part.index, part.position);

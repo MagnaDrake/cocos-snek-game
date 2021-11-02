@@ -11,7 +11,11 @@ import {
 } from "cc";
 import { Board } from "../object/board";
 import { Snake } from "../object/snake";
-import { SNAKE_BODY_PART, SNAKE_EVENT } from "../enum/snake";
+import {
+  SNAKE_BODY_PART,
+  SNAKE_EVENT,
+  SNAKE_CONTROLLER_EVENT,
+} from "../enum/snake";
 
 const { ccclass, property } = _decorator;
 
@@ -100,19 +104,28 @@ export class SnakeController extends Component {
     if (nextTile && nextTile.node) {
       this.snake.moveTo(nextIdx, nextTile.node.position);
     }
+
+    if (!this.board.checkSafeTile(nextIdx.x, nextIdx.y, this.snake)) {
+      this.gameOver();
+    }
   }
 
   changeSnakeDirection(x: number, y: number) {
     const isDirectionChanged = this.snake?.changeDirectionHeading(x, y);
 
     if (isDirectionChanged) {
+      //sfx
     }
 
-    this.node.emit("yeet", x, y);
+    this.node.emit(SNAKE_CONTROLLER_EVENT.CHANGE_SNAKE_DIRECTION, x, y);
   }
 
   snakeEatFruit(fruit: { node: Node; index: Vec2; position: Vec3 }) {
     this.snake?.eatFruit(fruit.index, fruit.position);
     this.board?.removeFruit(fruit);
+  }
+
+  gameOver() {
+    this.snake?.die();
   }
 }
